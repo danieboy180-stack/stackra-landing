@@ -170,13 +170,33 @@
   </p>
 </section>
 
+<!-- SOCIAL + EMAIL (ADDED) -->
+<section class="px-6 md:px-12 mt-20 text-center">
+  <p class="text-lg font-bold mb-4 text-white/80">Connect with Stackra</p>
+
+  <div class="flex flex-col md:flex-row justify-center items-center gap-6 text-gray-400 text-sm">
+
+    <a class="hover:text-white transition" href="https://instagram.com/stackraio" target="_blank">
+      Instagram: @stackraio
+    </a>
+
+    <a class="hover:text-white transition" href="https://x.com/stackraio" target="_blank">
+      X: @stackraio
+    </a>
+
+    <a class="hover:text-white transition" href="mailto:hello@stackra.dev"
+       onclick="alert('Opening your email app to contact Stackra 😊');">
+       Email: hello@stackra.dev
+    </a>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer class="px-6 md:px-12 py-12 mt-28 text-gray-600 text-sm border-t border-white/10 text-center">
   Stackra © 2026  All rights reserved.
 </footer>
 
 <script>
-let submittedEmails = new Set();
 const form = document.getElementById("waitlistForm");
 const popup = document.getElementById("successPopup");
 
@@ -184,21 +204,20 @@ form.addEventListener("submit", async function(e) {
   e.preventDefault();
 
   let email = document.getElementById("emailInput").value.trim();
+  if (!email) return;
 
-  if (submittedEmails.has(email)) {
-    alert("This email is already on the waitlist!");
-    return;
-  }
-
-  submittedEmails.add(email);
-
-  let formURL = "https://docs.google.com/forms/d/e/1FAIpQLSflvVxMwq-SNghfDiP2QobYX0CfAvtkpFfQKUBWqZ1YPfVr-Q/formResponse";
+  // Google Form URL
+  let formURL =
+    "https://docs.google.com/forms/d/e/1FAIpQLSflvVxMwq-SNghfDiP2QobYX0CfAvtkpFfQKUBWqZ1YPfVr-Q/formResponse";
 
   let formData = new FormData();
   formData.append("entry.1782561426", email);
 
-  await fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
+  // Always send — allow duplicates (Google will handle real duplicates)
+  fetch(formURL, { method: "POST", mode: "no-cors", body: formData })
+    .catch(() => {});
 
+  // Always show success popup
   popup.classList.remove("hidden");
   form.reset();
 });
