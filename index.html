@@ -1,1 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stackra Workspace for African Merchants</title>
 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Syne', sans-serif; background: #000; color: white; }
+    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
+  </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+<!-- SUCCESS POPUP -->
+<div id="successPopup" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex-col items-center justify-center z-50 p-4">
+  <div class="glass p-6 md:p-8 rounded-2xl text-center max-w-sm w-full">
+    <h2 class="text-xl md:text-2xl font-bold mb-3">You're on the list! 🎉</h2>
+    <p class="text-gray-300">Thanks for joining the Stackra waitlist.</p>
+    <button onclick="closePopup()" class="mt-6 px-5 py-2 rounded-xl bg-[#ff5f00] hover:bg-[#e65400]">
+      Close
+    </button>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="w-full flex justify-between items-center py-5 px-5 md:px-10">
+  <div class="flex items-center gap-5">
+    <svg width="60" height="60" viewBox="0 0 100 100" fill="none" class="scale-90 md:scale-100">
+      <path d="M10 78 Q50 28 90 78" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+      <path d="M10 60 Q50 10 90 60" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.5"/>
+      <path d="M10 42 Q50 -8 90 42" stroke="white" stroke-width="7" stroke-linecap="round"/>
+    </svg>
+    <div class="text-3xl md:text-4xl font-extrabold tracking-tight">Stackra</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="px-6 md:px-12 mt-12 md:mt-20 flex flex-col md:flex-row items-center gap-16">
+
+  <!-- LEFT -->
+  <div class="flex-1">
+    <h2 class="text-4xl md:text-6xl font-extrabold leading-tight">
+      Your Business.<br>Organized.<br>Automated.
+    </h2>
+
+    <p class="text-gray-300 mt-5 text-lg max-w-lg leading-relaxed">
+      Stackra helps African merchants manage sales, deliveries, customers, payments and communication all in one workspace built for growth.
+    </p>
+
+    <!-- WAITLIST FORM -->
+    <form id="waitlistForm" class="mt-8 flex flex-col sm:flex-row gap-3 w-full max-w-xl">
+      <input id="emailInput" type="email" placeholder="Enter your email" required
+      class="w-full flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500">
+
+      <button type="submit"
+        class="px-6 py-3 rounded-xl bg-[#ff5f00] hover:bg-[#e65400] text-white font-semibold">
+        Join Waitlist →
+      </button>
+    </form>
+
+    <p class="text-gray-500 text-sm mt-3">
+      Be the first to access Stackra when we launch.
+    </p>
+  </div>
+
+  <!-- RIGHT CIRCLE LOGO -->
+  <div class="flex-1 flex justify-center">
+    <div class="glass rounded-3xl p-10 w-[280px] h-[280px] md:w-[360px] md:h-[360px] flex flex-col items-center justify-center">
+      <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
+        <path d="M10 78 Q50 28 90 78" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+        <path d="M10 60 Q50 10 90 60" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.5"/>
+        <path d="M10 42 Q50 -8 90 42" stroke="white" stroke-width="7" stroke-linecap="round"/>
+      </svg>
+      <p class="text-2xl md:text-3xl mt-4 font-extrabold">Stackra</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- PAIN POINTS -->
+<section class="px-6 md:px-12 mt-28 md:mt-32">
+  <h3 class="text-3xl md:text-4xl font-bold mb-6">The Daily Struggles of African Merchants</h3>
+
+  <div class="text-gray-300 max-w-3xl text-lg space-y-4 leading-relaxed">
+    <p>• Sales scattered across WhatsApp, Instagram and TikTok making it easy to lose customers.</p>
+    <p>• Deliveries become stressful: wrong addresses, late riders, repeated complaints.</p>
+    <p>• Payments are messy: screenshots everywhere, confusion between paid & unpaid orders.</p>
+    <p>• Customers ask the same questions all day: “price?”, “location?”, “delivery?”</p>
+    <p>• No clear insights no daily breakdown of revenue, growth or performance.</p>
+    <p>• Tasks, reminders and ideas get forgotten because everything is scattered in different apps.</p>
+  </div>
+</section>
+
+<!-- WHY STACKRA -->
+<section class="px-6 md:px-12 mt-28">
+  <h3 class="text-3xl md:text-4xl font-bold mb-6">Why Stackra?</h3>
+
+  <div class="text-gray-300 max-w-3xl text-lg space-y-6 leading-relaxed">
+    <p>
+      Stackra is a modern workspace designed specifically for African merchants 
+      replacing scattered apps, screenshots, chats and manual processes with one
+      simple, organized system.
+    </p>
+
+    <p>
+      Everything works together: sales, customers, order tracking, delivery coordination,
+      payments, chats, tasks and insights.  
+      Less stress. Fewer mistakes. More time to grow.
+    </p>
+  </div>
+</section>
+
+<!-- AFRICAN STRIP -->
+<section class="mt-20">
+  <div class="h-3 w-full bg-gradient-to-r from-yellow-500 via-red-500 to-green-500"></div>
+</section>
+
+<!-- BUSINESS TOOLS -->
+<section class="px-6 md:px-12 mt-28">
+  <h3 class="text-3xl md:text-4xl font-bold mb-10">Business Tools</h3>
+
+  <div class="grid md:grid-cols-3 gap-8">
+
+    <div class="glass p-6 rounded-2xl">
+      <h4 class="text-xl font-bold mb-2">Order Assistant</h4>
+      <p class="text-gray-300">Automatically organizes orders, summaries and alerts nothing gets lost, even on busy days.</p>
+    </div>
+
+    <div class="glass p-6 rounded-2xl">
+      <h4 class="text-xl font-bold mb-2">Smart Customer Replies</h4>
+      <p class="text-gray-300">Instant replies for price, delivery, availability & customer FAQs.</p>
+    </div>
+
+    <div class="glass p-6 rounded-2xl">
+      <h4 class="text-xl font-bold mb-2">Daily Brief</h4>
+      <p class="text-gray-300">A morning summary of revenue, orders, issues and tasks.</p>
+    </div>
+
+    <div class="glass p-6 rounded-2xl">
+      <h4 class="text-xl font-bold mb-2">Merchant Notebook</h4>
+      <p class="text-gray-300">Store ideas, reminders and tasks in one place  always organized.</p>
+    </div>
+
+    <div class="glass p-6 rounded-2xl">
+      <h4 class="text-xl font-bold mb-2">Automations</h4>
+      <p class="text-gray-300">Small workflows that handle follow-ups, reminders and repetitive tasks.</p>
+    </div>
+
+    <div class="glass p-6 rounded-2xl">
+      <h4 class="text-xl font-bold mb-2">Growth Score</h4>
+      <p class="text-gray-300">Tracks consistency in sales, messaging and fulfillment helping you improve.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="px-6 md:px-12 mt-28 text-center">
+  <p class="text-gray-500 uppercase tracking-wider text-sm mb-6">
+    Built using technologies from:
+  </p>
+
+  <p class="text-gray-300 text-lg leading-relaxed">
+    Google • OpenAI • GitHub • Supabase • Firebase • Azure • Name.com
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer class="px-6 md:px-12 py-12 mt-28 text-gray-600 text-sm border-t border-white/10 text-center">
+  Stackra © 2026  All rights reserved.
+</footer>
+
+<script>
+let submittedEmails = new Set();
+const form = document.getElementById("waitlistForm");
+const popup = document.getElementById("successPopup");
+
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  let email = document.getElementById("emailInput").value.trim();
+
+  if (submittedEmails.has(email)) {
+    alert("This email is already on the waitlist!");
+    return;
+  }
+
+  submittedEmails.add(email);
+
+  let formURL = "https://docs.google.com/forms/d/e/1FAIpQLSflvVxMwq-SNghfDiP2QobYX0CfAvtkpFfQKUBWqZ1YPfVr-Q/formResponse";
+
+  let formData = new FormData();
+  formData.append("entry.1782561426", email);
+
+  await fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
+
+  popup.classList.remove("hidden");
+  form.reset();
+});
+
+function closePopup() {
+  popup.classList.add("hidden");
+}
+</script>
+
+</body>
+</html>
