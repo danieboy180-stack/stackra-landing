@@ -3,197 +3,166 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stackra Workspace for African Merchants</title>
+  <title>Stackra | The AI Assistant for African Merchants</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    body { font-family: 'Syne', sans-serif; background: #000; color: white; }
-    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
+    body { font-family: 'Syne', sans-serif; background: #000; color: white; scroll-behavior: smooth; }
+    .glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+    .brand-green { color: #10b981; }
+    .brand-bg-green { background: #059669; }
+    .brand-gold { color: #fbbf24; }
   </style>
 </head>
 
 <body class="overflow-x-hidden">
 
-<!-- SUCCESS POPUP -->
-<div id="successPopup" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex-col items-center justify-center z-50 p-4">
-  <div class="glass p-6 md:p-8 rounded-2xl text-center max-w-sm w-full">
-    <h2 class="text-xl md:text-2xl font-bold mb-3">You're on the list! 🎉</h2>
-    <p class="text-gray-300">Thanks for joining the Stackra waitlist.</p>
-    <button onclick="closePopup()" class="mt-6 px-5 py-2 rounded-xl bg-[#ff5f00] hover:bg-[#e65400]">
-      Close
+<div id="successPopup" class="fixed inset-0 bg-black/95 backdrop-blur-md hidden flex-col items-center justify-center z-50 p-4">
+  <div class="glass p-8 md:p-12 rounded-3xl text-center max-w-sm w-full border-green-500/30 border">
+    <div class="text-5xl mb-4">✅</div>
+    <h2 class="text-2xl font-bold mb-3">You're on the list!</h2>
+    <p class="text-gray-400">We'll message you once we're ready for your business. Welcome to the future of African commerce.</p>
+    <button onclick="closePopup()" class="mt-8 w-full py-3 rounded-xl brand-bg-green hover:bg-green-700 font-bold transition-all">
+      Awesome
     </button>
   </div>
 </div>
 
-<!-- NAV -->
-<header class="w-full flex justify-between items-center py-5 px-5 md:px-10">
-  <div class="flex items-center gap-5">
-    <svg width="60" height="60" viewBox="0 0 100 100" fill="none" class="scale-90 md:scale-100">
-      <path d="M10 78 Q50 28 90 78" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
-      <path d="M10 60 Q50 10 90 60" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.5"/>
-      <path d="M10 42 Q50 -8 90 42" stroke="white" stroke-width="7" stroke-linecap="round"/>
-    </svg>
-    <div class="text-3xl md:text-4xl font-extrabold tracking-tight">Stackra</div>
+<header class="w-full flex justify-between items-center py-6 px-6 md:px-12">
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 brand-bg-green rounded-lg flex items-center justify-center">
+        <svg width="25" height="25" viewBox="0 0 100 100" fill="none">
+            <path d="M10 70 L50 30 L90 70" stroke="white" stroke-width="12" stroke-linecap="round"/>
+        </svg>
+    </div>
+    <div class="text-2xl font-extrabold tracking-tighter uppercase">Stackra</div>
   </div>
+  <a href="#waitlistForm" class="text-sm font-bold brand-gold border border-amber-500/30 px-5 py-2 rounded-full hover:bg-amber-500/10 transition">Get Early Access</a>
 </header>
 
-<!-- HERO -->
-<section class="px-6 md:px-12 mt-12 md:mt-20 flex flex-col md:flex-row items-center gap-16">
+<section class="px-6 md:px-12 py-12 md:py-20 flex flex-col lg:flex-row items-center gap-12">
 
-  <!-- LEFT -->
-  <div class="flex-1">
-    <h2 class="text-4xl md:text-6xl font-extrabold leading-tight">
-      Your Business.<br>Organized.<br>Automated.
-    </h2>
+  <div class="flex-1 text-center lg:text-left">
+    <h1 class="text-5xl md:text-7xl font-extrabold leading-[1.1] tracking-tight">
+      Run your business<br><span class="brand-green">without the stress.</span>
+    </h1>
 
-    <p class="text-gray-300 mt-5 text-lg max-w-lg leading-relaxed">
-      Stackra helps African merchants manage sales, deliveries, customers, payments and communication all in one workspace built for growth.
+    <p class="text-gray-400 mt-6 text-lg md:text-xl max-w-xl mx-auto lg:mx-0">
+        The all-in-one workspace for Nigerian merchants to manage sales, track debt, and automate WhatsApp customer service.
     </p>
 
-    <!-- WAITLIST FORM -->
-    <form id="waitlistForm" class="mt-8 flex flex-col sm:flex-row gap-3 w-full max-w-xl">
-      <input id="emailInput" type="email" placeholder="Enter your email" required
-      class="w-full flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500">
+    <form id="waitlistForm" class="mt-10 flex flex-col sm:flex-row gap-3 w-full max-w-xl mx-auto lg:mx-0">
+      <input id="emailInput" type="email" placeholder="Enter your email address" required
+      class="w-full flex-1 px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-green-500 transition">
 
       <button type="submit"
-        class="px-6 py-3 rounded-xl bg-[#ff5f00] hover:bg-[#e65400] text-white font-semibold">
-        Join Waitlist →
+        class="px-8 py-4 rounded-xl brand-bg-green hover:bg-green-700 text-white font-bold text-lg transition-all active:scale-95">
+        Join Waitlist
       </button>
     </form>
-
-    <p class="text-gray-500 text-sm mt-3">
-      Be the first to access Stackra when we launch.
-    </p>
+    <p class="text-xs text-gray-500 mt-4 italic">No credit card required. Free 3-month trial for early birds.</p>
   </div>
 
-  <!-- RIGHT CIRCLE LOGO -->
-  <div class="flex-1 flex justify-center">
-    <div class="glass rounded-3xl p-10 w-[280px] h-[280px] md:w-[360px] md:h-[360px] flex flex-col items-center justify-center">
-      <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
-        <path d="M10 78 Q50 28 90 78" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
-        <path d="M10 60 Q50 10 90 60" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.5"/>
-        <path d="M10 42 Q50 -8 90 42" stroke="white" stroke-width="7" stroke-linecap="round"/>
-      </svg>
-      <p class="text-2xl md:text-3xl mt-4 font-extrabold">Stackra</p>
+  <div class="flex-1 w-full flex justify-center relative">
+    <div class="glass rounded-[2.5rem] p-6 w-full max-w-sm aspect-[4/5] flex flex-col shadow-2xl">
+        <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full brand-bg-green flex items-center justify-center text-xs">AI</div>
+                <p class="text-xs font-bold">Stackra Assistant</p>
+            </div>
+            <div class="px-2 py-1 rounded-md bg-green-500/10 text-[10px] brand-green font-bold uppercase">Active</div>
+        </div>
+        <div class="space-y-4 flex-1">
+            <div class="bg-white/5 p-4 rounded-2xl rounded-tl-none text-sm text-gray-300">
+                You have a new payment alert for ₦15,500. Should I record this as a sale for "Mama Tunde"?
+            </div>
+            <div class="bg-green-600/20 border border-green-500/30 p-4 rounded-2xl rounded-tr-none ml-auto text-sm">
+                Yes, update stock for Ankara (Blue) too.
+            </div>
+            <div class="bg-white/5 p-4 rounded-2xl rounded-tl-none text-sm text-gray-300">
+                Done. Stock updated. You have 4 pieces left.
+            </div>
+        </div>
     </div>
-  </div>
-
-</section>
-
-<!-- PAIN POINTS -->
-<section class="px-6 md:px-12 mt-28 md:mt-32">
-  <h3 class="text-3xl md:text-4xl font-bold mb-6">The Daily Struggles of African Merchants</h3>
-
-  <div class="text-gray-300 max-w-3xl text-lg space-y-4 leading-relaxed">
-    <p>• Sales scattered across WhatsApp, Instagram and TikTok making it easy to lose customers.</p>
-    <p>• Deliveries become stressful: wrong addresses, late riders, repeated complaints.</p>
-    <p>• Payments are messy: screenshots everywhere, confusion between paid & unpaid orders.</p>
-    <p>• Customers ask the same questions all day: “price?”, “location?”, “delivery?”</p>
-    <p>• No clear insights no daily breakdown of revenue, growth or performance.</p>
-    <p>• Tasks, reminders and ideas get forgotten because everything is scattered in different apps.</p>
   </div>
 </section>
 
-<!-- WHY STACKRA -->
-<section class="px-6 md:px-12 mt-28">
-  <h3 class="text-3xl md:text-4xl font-bold mb-6">Why Stackra?</h3>
-
-  <div class="text-gray-300 max-w-3xl text-lg space-y-6 leading-relaxed">
-    <p>
-      Stackra is a modern workspace designed specifically for African merchants 
-      replacing scattered apps, screenshots, chats and manual processes with one
-      simple, organized system.
-    </p>
-
-    <p>
-      Everything works together: sales, customers, order tracking, delivery coordination,
-      payments, chats, tasks and insights.  
-      Less stress. Fewer mistakes. More time to grow.
-    </p>
+<section class="px-6 md:px-12 py-20 bg-zinc-950">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-5xl font-extrabold mb-4">Why use Stackra?</h2>
+        <p class="text-gray-400">Built to solve the specific headaches of selling in Africa.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="glass p-8 rounded-3xl">
+            <div class="text-brand-gold text-2xl mb-4">💰</div>
+            <h4 class="text-xl font-bold mb-3">Track Every Kobo</h4>
+            <p class="text-gray-400 text-sm">Stop losing money to forgotten debts. Automatically track who owes you and send friendly reminders via WhatsApp.</p>
+        </div>
+        <div class="glass p-8 rounded-3xl">
+            <div class="text-brand-gold text-2xl mb-4">📦</div>
+            <h4 class="text-xl font-bold mb-3">Zero Stock Confusion</h4>
+            <p class="text-gray-400 text-sm">Know exactly what's in your shop or warehouse at any time. Get alerts before things finish.</p>
+        </div>
+        <div class="glass p-8 rounded-3xl">
+            <div class="text-brand-gold text-2xl mb-4">🤖</div>
+            <h4 class="text-xl font-bold mb-3">AI Sales Agent</h4>
+            <p class="text-gray-400 text-sm">Let the AI answer "Price?" and "Location?" while you focus on getting new stock and scaling.</p>
+        </div>
+    </div>
+    <div class="text-center mt-12">
+        <a href="#waitlistForm" class="inline-block px-8 py-4 rounded-xl border border-white/20 hover:bg-white/5 font-bold transition">Start Growing Your Business →</a>
+    </div>
   </div>
 </section>
 
-<!-- AFRICAN STRIP -->
-<section class="mt-20">
-  <div class="h-3 w-full bg-gradient-to-r from-yellow-500 via-red-500 to-green-500"></div>
+<section class="px-6 md:px-12 py-20">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-10">
+        <div class="flex-1 p-8 rounded-3xl bg-red-500/5 border border-red-500/20">
+            <h3 class="text-red-500 font-bold mb-4 uppercase text-xs tracking-widest">The Old Way</h3>
+            <ul class="space-y-3 text-gray-400 text-sm">
+                <li>• Paper notebooks that get lost</li>
+                <li>• Confusing WhatsApp chat history</li>
+                <li>• Forgetting customers who owe</li>
+                <li>• Manual delivery tracking</li>
+                <li>• Zero data on your profits</li>
+            </ul>
+        </div>
+        <div class="flex-1 p-8 rounded-3xl bg-green-500/5 border border-green-500/20">
+            <h3 class="text-green-500 font-bold mb-4 uppercase text-xs tracking-widest">The Stackra Way</h3>
+            <ul class="space-y-3 text-gray-200 text-sm font-medium">
+                <li>• Digital records, accessible anywhere</li>
+                <li>• AI-organized order summaries</li>
+                <li>• Automatic debt collection alerts</li>
+                <li>• One-click delivery booking</li>
+                <li>• Daily breakdown of your growth</li>
+            </ul>
+        </div>
+    </div>
 </section>
 
-<!-- BUSINESS TOOLS -->
-<section class="px-6 md:px-12 mt-28">
-  <h3 class="text-3xl md:text-4xl font-bold mb-10">Business Tools</h3>
-
-  <div class="grid md:grid-cols-3 gap-8">
-
-    <div class="glass p-6 rounded-2xl">
-      <h4 class="text-xl font-bold mb-2">Order Assistant</h4>
-      <p class="text-gray-300">Automatically organizes orders, summaries and alerts nothing gets lost, even on busy days.</p>
-    </div>
-
-    <div class="glass p-6 rounded-2xl">
-      <h4 class="text-xl font-bold mb-2">Smart Customer Replies</h4>
-      <p class="text-gray-300">Instant replies for price, delivery, availability & customer FAQs.</p>
-    </div>
-
-    <div class="glass p-6 rounded-2xl">
-      <h4 class="text-xl font-bold mb-2">Daily Brief</h4>
-      <p class="text-gray-300">A morning summary of revenue, orders, issues and tasks.</p>
-    </div>
-
-    <div class="glass p-6 rounded-2xl">
-      <h4 class="text-xl font-bold mb-2">Merchant Notebook</h4>
-      <p class="text-gray-300">Store ideas, reminders and tasks in one place  always organized.</p>
-    </div>
-
-    <div class="glass p-6 rounded-2xl">
-      <h4 class="text-xl font-bold mb-2">Automations</h4>
-      <p class="text-gray-300">Small workflows that handle follow-ups, reminders and repetitive tasks.</p>
-    </div>
-
-    <div class="glass p-6 rounded-2xl">
-      <h4 class="text-xl font-bold mb-2">Growth Score</h4>
-      <p class="text-gray-300">Tracks consistency in sales, messaging and fulfillment helping you improve.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- TECH STACK -->
-<section class="px-6 md:px-12 mt-28 text-center">
-  <p class="text-gray-500 uppercase tracking-wider text-sm mb-6">
-    Built using technologies from:
-  </p>
-
-  <p class="text-gray-300 text-lg leading-relaxed">
-    Google • OpenAI • GitHub • Supabase • Firebase • Azure • Name.com
-  </p>
-</section>
-
-<!-- SOCIAL + EMAIL (ADDED) -->
-<section class="px-6 md:px-12 mt-20 text-center">
-  <p class="text-lg font-bold mb-4 text-white/80">Connect with Stackra</p>
-
-  <div class="flex flex-col md:flex-row justify-center items-center gap-6 text-gray-400 text-sm">
-
-    <a class="hover:text-white transition" href="https://instagram.com/stackraio" target="_blank">
-      Instagram: @stackraio
+<section class="px-6 md:px-12 py-20 text-center">
+    <h2 class="text-3xl md:text-5xl font-extrabold mb-8">Join the next generation of<br>African Merchants.</h2>
+    <a href="#waitlistForm" class="inline-block px-10 py-5 rounded-xl brand-bg-green hover:bg-green-700 text-white font-bold text-xl transition-all shadow-xl shadow-green-900/20">
+        Get Early Access Now
     </a>
-
-    <a class="hover:text-white transition" href="https://x.com/stackraio" target="_blank">
-      X: @stackraio
-    </a>
-
-    <a class="hover:text-white transition" href="mailto:hello@stackra.dev"
-       onclick="alert('Opening your email app to contact Stackra 😊');">
-       Email: hello@stackra.dev
-    </a>
-  </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="px-6 md:px-12 py-12 mt-28 text-gray-600 text-sm border-t border-white/10 text-center">
-  Stackra © 2026  All rights reserved.
+<footer class="px-6 md:px-12 py-12 border-t border-white/10">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex items-center gap-2">
+            <div class="w-6 h-6 brand-bg-green rounded flex items-center justify-center text-[10px] font-bold italic">S</div>
+            <span class="font-bold tracking-tighter">STACKRA</span>
+        </div>
+        <p class="text-xs text-gray-500">© 2026 Stackra Africa. Helping you build, sell, and grow.</p>
+        <div class="flex gap-6">
+            <a href="https://instagram.com/stackraio" class="text-gray-400 hover:text-white transition text-xs">Instagram</a>
+            <a href="https://x.com/stackraio" class="text-gray-400 hover:text-white transition text-xs">X</a>
+        </div>
+    </div>
 </footer>
 
 <script>
@@ -206,20 +175,17 @@ form.addEventListener("submit", async function(e) {
   let email = document.getElementById("emailInput").value.trim();
   if (!email) return;
 
-  // Google Form URL
-  let formURL =
-    "https://docs.google.com/forms/d/e/1FAIpQLSflvVxMwq-SNghfDiP2QobYX0CfAvtkpFfQKUBWqZ1YPfVr-Q/formResponse";
+  // Google Form ID for email entry
+  let formURL = "https://docs.google.com/forms/d/e/1FAIpQLSflvVxMwq-SNghfDiP2QobYX0CfAvtkpFfQKUBWqZ1YPfVr-Q/formResponse";
 
   let formData = new FormData();
   formData.append("entry.1782561426", email);
 
-  // Always send — allow duplicates (Google will handle real duplicates)
   fetch(formURL, { method: "POST", mode: "no-cors", body: formData })
-    .catch(() => {});
-
-  // Always show success popup
-  popup.classList.remove("hidden");
-  form.reset();
+    .finally(() => {
+        popup.classList.remove("hidden");
+        form.reset();
+    });
 });
 
 function closePopup() {
