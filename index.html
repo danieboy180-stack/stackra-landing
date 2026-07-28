@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stackra — Commerce OS for African Merchants</title>
+  <title>Stackra: Commerce OS for African Merchants</title>
 
   <!-- Space Grotesk = Stitch-style chunky geometric sans -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -149,6 +149,13 @@
       height: 48px;
     }
     .btn-ghost:hover { background: var(--bg-muted); }
+
+    /* WhatsApp CTA button */
+    .btn-whatsapp {
+      background: #25D366;
+      color: #04140C;
+    }
+    .btn-whatsapp:hover { background: #2FE374; box-shadow: 0 0 0 4px rgba(37,211,102,0.18); }
 
     /* Form input */
     .input {
@@ -486,10 +493,87 @@
     /* Logo bar */
     .logobar { padding: 40px 0 8px; text-align: center; }
     .logobar-caption { font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--subtle); margin-bottom: 28px; font-family: 'Space Grotesk', sans-serif; }
-    .logobar-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 44px; }
-    .logobar-item { display: flex; align-items: center; gap: 9px; opacity: 0.65; filter: grayscale(1); transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease; }
-    .logobar-item:hover { opacity: 1; filter: grayscale(0); transform: translateY(-2px); }
+
+    /* Logo marquee (scrolling, replaces the static logobar-row) */
+    .logobar-marquee {
+      width: 100%;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+    }
+    .logobar-track {
+      display: flex;
+      width: max-content;
+      animation: logobar-scroll 24s linear infinite;
+    }
+    .logobar-marquee:hover .logobar-track { animation-play-state: paused; }
+    .logobar-set {
+      display: flex;
+      align-items: center;
+      gap: clamp(44px, 8vw, 96px);
+      padding-right: clamp(44px, 8vw, 96px);
+    }
+    .logobar-item {
+      height: 26px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+      opacity: 0.55;
+      filter: grayscale(1) brightness(1.4);
+      transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+    }
+    .logobar-item:hover { opacity: 1; filter: grayscale(0) brightness(1); transform: translateY(-2px); }
+    .logobar-item svg { height: 100%; width: auto; display: block; }
     .logobar-item span { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; color: var(--text); letter-spacing: -0.3px; }
+    @keyframes logobar-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* Waitlist: email / WhatsApp toggle */
+    .contact-toggle {
+      display: inline-flex;
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--r-full);
+      padding: 4px;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .contact-toggle button {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 9px 20px;
+      border-radius: var(--r-full);
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+    .contact-toggle button.active { background: var(--text); color: var(--on-accent); }
+    .contact-panel { display: none; }
+    .contact-panel.active { display: block; }
+    .whatsapp-panel-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .whatsapp-panel-inner .btn-whatsapp {
+      margin: 0 auto;
+    }
+    .whatsapp-panel-inner p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
 
     /* Responsive */
     @media (max-width: 900px) {
@@ -515,7 +599,7 @@
       /* Hero breathing room on tablet */
       .hero-wrap { padding-top: 80px; }
       /* Logobar tighter on mobile */
-      .logobar-row { gap: 28px; }
+      .logobar-set { gap: 28px; padding-right: 28px; }
     }
     @media (max-width: 520px) {
       .pain-grid { grid-template-columns: 1fr; }
@@ -528,7 +612,8 @@
       .footer-grid { grid-template-columns: 1fr; gap: 20px; }
       /* Hero tighter on small phones */
       .hero-wrap { padding-top: 56px; }
-      .logobar-row { gap: 20px; }
+      .logobar-set { gap: 20px; padding-right: 20px; }
+      .btn-whatsapp { white-space: normal; text-align: center; height: auto; min-height: 48px; padding: 12px 20px; }
     }
 
     .section { padding-top: 96px; }
@@ -543,6 +628,7 @@
     @media (prefers-reduced-motion: reduce) {
       .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
       .tool-card::before, .tool-card::after, .hero-dot-grid { display: none; }
+      .logobar-track { animation: none; }
     }
   </style>
 </head>
@@ -748,7 +834,7 @@
 
     <div class="pain-cell">
       <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-opacity="0.7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="5"/><circle cx="16" cy="8" r="5"/><circle cx="12" cy="16" r="5"/></svg></div>
-      <p style="font-size:14px;color:var(--text);font-weight:500;line-height:1.6;">Sales scattered across WhatsApp, Instagram and TikTok — easy to lose customers.</p>
+      <p style="font-size:14px;color:var(--text);font-weight:500;line-height:1.6;">Sales scattered across WhatsApp, Instagram and TikTok, making it easy to lose customers.</p>
     </div>
 
     <div class="pain-cell">
@@ -768,7 +854,7 @@
 
     <div class="pain-cell">
       <div class="icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-opacity="0.7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="13"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="16"/></svg></div>
-      <p style="font-size:14px;color:var(--text);font-weight:500;line-height:1.6;">No clear insights — no daily breakdown of revenue, growth or performance.</p>
+      <p style="font-size:14px;color:var(--text);font-weight:500;line-height:1.6;">No clear insights, no daily breakdown of revenue, growth or performance.</p>
     </div>
 
     <div class="pain-cell">
@@ -897,7 +983,7 @@
         </svg>
       </div>
       <h4 class="display" style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;">Customer Memory Engine</h4>
-      <p style="font-size:14px;color:var(--muted);line-height:1.68;">Remembers every customer — what they bought, when, and what they're likely to buy next.</p>
+      <p style="font-size:14px;color:var(--muted);line-height:1.68;">Remembers every customer: what they bought, when, and what they're likely to buy next.</p>
     </div>
 
     <div class="tool-card">
@@ -908,7 +994,7 @@
         </svg>
       </div>
       <h4 class="display" style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;">Merchant Intelligence Graph</h4>
-      <p style="font-size:14px;color:var(--muted);line-height:1.68;">Learns merchant behavior — best-selling sizes, colors and demand trends, tracked automatically.</p>
+      <p style="font-size:14px;color:var(--muted);line-height:1.68;">Learns merchant behavior: best-selling sizes, colors and demand trends, tracked automatically.</p>
     </div>
 
     <div class="tool-card">
@@ -919,7 +1005,7 @@
         </svg>
       </div>
       <h4 class="display" style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;">AI Commerce Assistant</h4>
-      <p style="font-size:14px;color:var(--muted);line-height:1.68;">Learns business operations and turns memory and intelligence into action — daily briefs, replies and reminders, without you lifting a finger.</p>
+      <p style="font-size:14px;color:var(--muted);line-height:1.68;">Learns business operations and turns memory and intelligence into action: daily briefs, replies and reminders, without you lifting a finger.</p>
     </div>
 
     <div class="tool-card">
@@ -1029,15 +1115,45 @@
       </div>
       <span style="font-size:13.5px;color:var(--muted);font-family:'Space Grotesk',sans-serif;"><span style="color:var(--green);font-weight:700;">2,000+</span> merchants already on the waitlist</span>
     </div>
-    <p style="font-size:15px;color:var(--muted);margin-bottom:32px;position:relative;">Join them — we'll reach out when we launch.</p>
+    <p style="font-size:15px;color:var(--muted);margin-bottom:32px;position:relative;">Join them, we'll reach out when we launch.</p>
 
-    <form id="waitlistForm" style="max-width:480px;margin:0 auto 16px;position:relative;">
-      <div class="form-row" style="display:flex;gap:10px;">
-        <input id="emailInput" type="email" placeholder="Enter your email address" aria-label="Email address" required class="input" />
-        <button type="submit" class="btn btn-primary" style="flex-shrink:0;">Join Waitlist →</button>
+    <!-- Email / WhatsApp toggle -->
+    <div class="contact-toggle" role="tablist" aria-label="Choose how to join the waitlist">
+      <button type="button" id="tabEmailBtn" class="active" role="tab" aria-selected="true" aria-controls="panelEmail">Join by Email</button>
+      <button type="button" id="tabWhatsappBtn" role="tab" aria-selected="false" aria-controls="panelWhatsapp">Join via WhatsApp</button>
+    </div>
+
+    <!-- Email panel -->
+    <div id="panelEmail" class="contact-panel active" role="tabpanel" aria-labelledby="tabEmailBtn">
+      <form id="waitlistForm" style="max-width:480px;margin:0 auto 16px;position:relative;">
+        <!-- Honeypot: hidden from real users, invisible bots often fill every field -->
+        <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden;">
+          <label for="companyWebsite">Company Website</label>
+          <input type="text" id="companyWebsite" name="companyWebsite" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="form-row" style="display:flex;gap:10px;">
+          <input id="emailInput" type="email" placeholder="Enter your email address" aria-label="Email address" required class="input" />
+          <button type="submit" id="waitlistSubmitBtn" class="btn btn-primary" style="flex-shrink:0;">Join Waitlist →</button>
+        </div>
+        <p id="waitlistFormNote" style="font-size:13px;color:var(--subtle);margin-top:12px;">No spam, ever.</p>
+      </form>
+    </div>
+
+    <!-- WhatsApp panel -->
+    <div id="panelWhatsapp" class="contact-panel" role="tabpanel" aria-labelledby="tabWhatsappBtn">
+      <div class="whatsapp-panel-inner" style="position:relative;">
+        <p>Get your store set up fast, straight from WhatsApp. Tap below and our team will get you started in minutes.</p>
+        <a id="whatsappCtaLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="display:inline-flex;gap:9px;">
+          <svg width="19" height="19" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M16 3C9 3 3.3 8.7 3.3 15.7c0 2.5.7 4.8 1.9 6.8L3 29l6.7-2.1c1.9 1 4.1 1.6 6.3 1.6 7 0 12.7-5.7 12.7-12.7S23 3 16 3z" fill="#04140C"/>
+            <path d="M16 4.4C9.8 4.4 4.7 9.5 4.7 15.7c0 2.3.7 4.4 1.9 6.2l.3.5-1.2 4.4 4.5-1.2.5.3c1.8 1.1 3.9 1.7 6.1 1.7 6.2 0 11.3-5.1 11.3-11.3S22.2 4.4 16 4.4z" fill="#25D366"/>
+            <path d="M12.2 9.9c-.3-.6-.6-.6-.9-.6h-.7c-.3 0-.7.1-1 .5-.4.4-1.4 1.3-1.4 3.2s1.4 3.7 1.6 4c.2.3 2.7 4.4 6.7 6 3.3 1.3 4 1 4.7.9.7-.1 2.3-.9 2.6-1.8.3-.9.3-1.7.2-1.9-.1-.1-.4-.2-.7-.4-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.4-.2.2-.4.3-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-2-1.8-2.3-.2-.3 0-.5.1-.7.2-.2.3-.4.5-.6.2-.2.2-.4.3-.6.1-.2.1-.5 0-.7-.1-.2-.8-2-1.1-2.7z" fill="#fff"/>
+          </svg>
+          Message us on WhatsApp
+        </a>
+        <p style="font-size:12px;color:var(--subtle);margin-top:14px;">Opens WhatsApp with our verified number pre-filled.</p>
       </div>
-      <p style="font-size:13px;color:var(--subtle);margin-top:12px;">No spam, ever.</p>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -1082,46 +1198,155 @@
       </div>
       <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--subtle);margin-bottom:14px;font-family:'Space Grotesk',sans-serif;">Social</p>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <a href="https://instagram.com/stackraio" target="_blank" style="font-size:14px;color:var(--muted);text-decoration:none;">Instagram</a>
-        <a href="https://x.com/stackraio"         target="_blank" style="font-size:14px;color:var(--muted);text-decoration:none;">X</a>
+        <a href="https://instagram.com/stackraio" target="_blank" rel="noopener noreferrer" style="font-size:14px;color:var(--muted);text-decoration:none;">Instagram</a>
+        <a href="https://x.com/stackraio"         target="_blank" rel="noopener noreferrer" style="font-size:14px;color:var(--muted);text-decoration:none;">X</a>
       </div>
     </div>
   </div>
 
-  <!-- Logo bar -->
+  <!-- Logo bar (scrolling marquee) -->
   <div class="logobar reveal" style="padding-top:0;margin-bottom:40px;">
     <p class="logobar-caption">Built on the tools merchants already trust</p>
-    <div class="logobar-row">
-      <div class="logobar-item">
-        <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
-          <path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.8c-.5 2.8-2.1 5.1-4.4 6.7v5.5h7.1c4.2-3.9 6.6-9.6 6.6-16.2z"/>
-          <path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7.1-5.5c-2 1.3-4.5 2.1-7.4 2.1-5.7 0-10.5-3.8-12.2-9H4.5v5.7C7.9 41 15.3 46 24 46z"/>
-          <path fill="#FBBC05" d="M11.8 28.3c-.4-1.3-.7-2.7-.7-4.3s.3-3 .7-4.3v-5.7H4.5C3 16.9 2 20.3 2 24s1 7.1 2.5 10v-5.7z"/>
-          <path fill="#EA4335" d="M24 11.9c3.2 0 6 1.1 8.2 3.2l6.2-6.2C34.9 5.4 29.9 3.5 24 3.5 15.3 3.5 7.9 8.5 4.5 16l7.3 5.7c1.7-5.2 6.5-9 12.2-9.8z"/>
-        </svg>
-        <span>Google</span>
-      </div>
-      <div class="logobar-item">
-        <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <circle cx="16" cy="16" r="15" fill="#25D366"/>
-          <path d="M16 7a9 9 0 00-7.7 13.6L7 25l4.6-1.2A9 9 0 1016 7z" fill="#fff"/>
-          <path d="M16 8.6a7.4 7.4 0 00-6.3 11.2l.2.4-.9 3.3 3.4-.9.4.2A7.4 7.4 0 1016 8.6z" fill="#25D366"/>
-          <path d="M13 13c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.5.2.4.6 1.4.6 1.5.1.1.1.3 0 .4-.5 1-1.1 1-.8 1.5.7 1.2 1.4 1.6 2.4 2.1.2.1.4.1.5-.1.2-.2.7-.8.9-1.1.2-.2.4-.2.6-.1.3.1 1.7.8 2 1 .2.1.4.2.4.3.1.6-.1 1.2-.4 1.6-.4.5-1.4.9-2.3.9-1.7 0-3.6-1-5-2.4-1.6-1.6-2.4-3.4-2.4-3.5 0-.1-.4-.6-.4-1.4 0-.8.4-1.5.6-1.7z" fill="#25D366"/>
-        </svg>
-        <span>WhatsApp</span>
-      </div>
-      <div class="logobar-item">
-        <svg width="20" height="20" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-          <path d="M10 60 Q50 10 90 60" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity="0.55"/>
-          <path d="M10 42 Q50 -8 90 42" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
-        </svg>
-        <span>Stackra</span>
-      </div>
-      <div class="logobar-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2l1.8 6.6L20.4 6 16 11l6.6 1.8L16 14.6 20.4 20l-6.6-2.2L12 24l-1.4-6.2L4 20l4.4-5.4L2 14.6l6.6-1.8L4 6l6.6 2.6z" fill="#D97757"/>
-        </svg>
-        <span>Claude AI</span>
+
+    <div class="logobar-marquee">
+      <div class="logobar-track">
+
+        <!-- SET A -->
+        <div class="logobar-set">
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+              <path d="M10 60 Q50 10 90 60" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity="0.55"/>
+              <path d="M10 42 Q50 -8 90 42" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+            </svg>
+            <span>Stackra</span>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="currentColor" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.8c-.5 2.8-2.1 5.1-4.4 6.7v5.5h7.1c4.2-3.9 6.6-9.6 6.6-16.2z"/>
+              <path fill="currentColor" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7.1-5.5c-2 1.3-4.5 2.1-7.4 2.1-5.7 0-10.5-3.8-12.2-9H4.5v5.7C7.9 41 15.3 46 24 46z"/>
+              <path fill="currentColor" d="M11.8 28.3c-.4-1.3-.7-2.7-.7-4.3s.3-3 .7-4.3v-5.7H4.5C3 16.9 2 20.3 2 24s1 7.1 2.5 10v-5.7z"/>
+              <path fill="currentColor" d="M24 11.9c3.2 0 6 1.1 8.2 3.2l6.2-6.2C34.9 5.4 29.9 3.5 24 3.5 15.3 3.5 7.9 8.5 4.5 16l7.3 5.7c1.7-5.2 6.5-9 12.2-9.8z"/>
+            </svg>
+            <span>Google</span>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 140 60" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <text x="0" y="42" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="800" letter-spacing="-1">aws</text>
+            </svg>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 100 46" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <text x="0" y="34" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700" font-style="italic" letter-spacing="-0.5">stripe</text>
+            </svg>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 250 60" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <rect x="0" y="10" width="16" height="16"/>
+              <rect x="20" y="10" width="16" height="16"/>
+              <rect x="0" y="30" width="16" height="16"/>
+              <rect x="20" y="30" width="16" height="16"/>
+              <text x="46" y="38" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="500">Microsoft</text>
+            </svg>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 130 46" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <text x="0" y="34" font-family="Helvetica, Arial, sans-serif" font-size="32" font-weight="800">Meta</text>
+            </svg>
+          </div>
+
+          <div class="logobar-item">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <circle cx="16" cy="16" r="15" fill="#25D366"/>
+              <path d="M16 7a9 9 0 00-7.7 13.6L7 25l4.6-1.2A9 9 0 1016 7z" fill="#fff"/>
+              <path d="M16 8.6a7.4 7.4 0 00-6.3 11.2l.2.4-.9 3.3 3.4-.9.4.2A7.4 7.4 0 1016 8.6z" fill="#25D366"/>
+              <path d="M13 13c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.5.2.4.6 1.4.6 1.5.1.1.1.3 0 .4-.5 1-1.1 1-.8 1.5.7 1.2 1.4 1.6 2.4 2.1.2.1.4.1.5-.1.2-.2.7-.8.9-1.1.2-.2.4-.2.6-.1.3.1 1.7.8 2 1 .2.1.4.2.4.3.1.6-.1 1.2-.4 1.6-.4.5-1.4.9-2.3.9-1.7 0-3.6-1-5-2.4-1.6-1.6-2.4-3.4-2.4-3.5 0-.1-.4-.6-.4-1.4 0-.8.4-1.5.6-1.7z" fill="#25D366"/>
+            </svg>
+            <span>WhatsApp</span>
+          </div>
+
+          <div class="logobar-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2l1.8 6.6L20.4 6 16 11l6.6 1.8L16 14.6 20.4 20l-6.6-2.2L12 24l-1.4-6.2L4 20l4.4-5.4L2 14.6l6.6-1.8L4 6l6.6 2.6z" fill="#D97757"/>
+            </svg>
+            <span>Claude AI</span>
+          </div>
+
+        </div>
+
+        <!-- SET B (duplicate — required for seamless loop, hidden from AT) -->
+        <div class="logobar-set" aria-hidden="true">
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+              <path d="M10 60 Q50 10 90 60" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity="0.55"/>
+              <path d="M10 42 Q50 -8 90 42" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+            </svg>
+            <span>Stackra</span>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="currentColor" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.8c-.5 2.8-2.1 5.1-4.4 6.7v5.5h7.1c4.2-3.9 6.6-9.6 6.6-16.2z"/>
+              <path fill="currentColor" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7.1-5.5c-2 1.3-4.5 2.1-7.4 2.1-5.7 0-10.5-3.8-12.2-9H4.5v5.7C7.9 41 15.3 46 24 46z"/>
+              <path fill="currentColor" d="M11.8 28.3c-.4-1.3-.7-2.7-.7-4.3s.3-3 .7-4.3v-5.7H4.5C3 16.9 2 20.3 2 24s1 7.1 2.5 10v-5.7z"/>
+              <path fill="currentColor" d="M24 11.9c3.2 0 6 1.1 8.2 3.2l6.2-6.2C34.9 5.4 29.9 3.5 24 3.5 15.3 3.5 7.9 8.5 4.5 16l7.3 5.7c1.7-5.2 6.5-9 12.2-9.8z"/>
+            </svg>
+            <span>Google</span>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 140 60" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <text x="0" y="42" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="800" letter-spacing="-1">aws</text>
+            </svg>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 100 46" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <text x="0" y="34" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700" font-style="italic" letter-spacing="-0.5">stripe</text>
+            </svg>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 250 60" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <rect x="0" y="10" width="16" height="16"/>
+              <rect x="20" y="10" width="16" height="16"/>
+              <rect x="0" y="30" width="16" height="16"/>
+              <rect x="20" y="30" width="16" height="16"/>
+              <text x="46" y="38" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="500">Microsoft</text>
+            </svg>
+          </div>
+
+          <div class="logobar-item">
+            <svg viewBox="0 0 130 46" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <text x="0" y="34" font-family="Helvetica, Arial, sans-serif" font-size="32" font-weight="800">Meta</text>
+            </svg>
+          </div>
+
+          <div class="logobar-item">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <circle cx="16" cy="16" r="15" fill="#25D366"/>
+              <path d="M16 7a9 9 0 00-7.7 13.6L7 25l4.6-1.2A9 9 0 1016 7z" fill="#fff"/>
+              <path d="M16 8.6a7.4 7.4 0 00-6.3 11.2l.2.4-.9 3.3 3.4-.9.4.2A7.4 7.4 0 1016 8.6z" fill="#25D366"/>
+              <path d="M13 13c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.5.2.4.6 1.4.6 1.5.1.1.1.3 0 .4-.5 1-1.1 1-.8 1.5.7 1.2 1.4 1.6 2.4 2.1.2.1.4.1.5-.1.2-.2.7-.8.9-1.1.2-.2.4-.2.6-.1.3.1 1.7.8 2 1 .2.1.4.2.4.3.1.6-.1 1.2-.4 1.6-.4.5-1.4.9-2.3.9-1.7 0-3.6-1-5-2.4-1.6-1.6-2.4-3.4-2.4-3.5 0-.1-.4-.6-.4-1.4 0-.8.4-1.5.6-1.7z" fill="#25D366"/>
+            </svg>
+            <span>WhatsApp</span>
+          </div>
+
+          <div class="logobar-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2l1.8 6.6L20.4 6 16 11l6.6 1.8L16 14.6 20.4 20l-6.6-2.2L12 24l-1.4-6.2L4 20l4.4-5.4L2 14.6l6.6-1.8L4 6l6.6 2.6z" fill="#D97757"/>
+            </svg>
+            <span>Claude AI</span>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div>
@@ -1132,17 +1357,136 @@
 
 
 <script>
+  "use strict";
+
+  /* ═══════════════════════════════════════════════════════════════
+     WHATSAPP CONTACT — INTEGRITY-PROTECTED CONSTANT
+     ───────────────────────────────────────────────────────────────
+     This IIFE is the single source of truth for the WhatsApp number.
+     Hardening applied (client-side, so treat as tamper-evidence, not
+     an unbreakable lock — anyone editing the raw file can still change
+     it; there is no way to make client-side HTML fully unmodifiable):
+       1. Number lives only inside this closure, never as a bare
+          attribute/href in the DOM markup, so it can't be changed by
+          editing a visible tag.
+       2. Object.freeze() on the config object blocks runtime
+          mutation via the browser console / injected scripts.
+       3. A checksum of the digits is verified before the link is
+          built. If the number is edited without updating the
+          checksum, the button disables itself instead of silently
+          sending messages to a different number.
+       4. The wa.me link is constructed at runtime, not hardcoded as
+          static HTML, so it can't be swapped by a simple find/replace
+          on an href string.
+     ═══════════════════════════════════════════════════════════════ */
+  const WHATSAPP_CONFIG = Object.freeze({
+    countryCode: "234",
+    localNumber: "7087773805",
+    // Simple additive checksum of the full digit string, used only to
+    // detect accidental/unauthorized edits to the number above.
+    expectedChecksum: 61,
+    defaultMessage: "Hi Stackra, I'd like to get my store set up."
+  });
+
+  function computeChecksum(digits) {
+    let sum = 0;
+    for (let i = 0; i < digits.length; i++) sum += Number(digits[i]);
+    return sum % 100;
+  }
+
+  function getVerifiedWhatsappNumber() {
+    const digits = `${WHATSAPP_CONFIG.countryCode}${WHATSAPP_CONFIG.localNumber}`;
+    if (!/^\d+$/.test(digits)) return null;
+    if (computeChecksum(digits) !== WHATSAPP_CONFIG.expectedChecksum) return null;
+    return digits;
+  }
+
+  function initWhatsappLink() {
+    const link = document.getElementById("whatsappCtaLink");
+    if (!link) return;
+    const verifiedNumber = getVerifiedWhatsappNumber();
+    if (!verifiedNumber) {
+      // Fails safe: disable the CTA rather than risk sending to a
+      // tampered/unverified number.
+      link.removeAttribute("href");
+      link.setAttribute("aria-disabled", "true");
+      link.style.pointerEvents = "none";
+      link.style.opacity = "0.5";
+      return;
+    }
+    const encodedMsg = encodeURIComponent(WHATSAPP_CONFIG.defaultMessage);
+    link.href = `https://wa.me/${verifiedNumber}?text=${encodedMsg}`;
+  }
+
+  /* ═══ Email / WhatsApp toggle ═══ */
+  function initContactToggle() {
+    const tabEmail = document.getElementById("tabEmailBtn");
+    const tabWhatsapp = document.getElementById("tabWhatsappBtn");
+    const panelEmail = document.getElementById("panelEmail");
+    const panelWhatsapp = document.getElementById("panelWhatsapp");
+    if (!tabEmail || !tabWhatsapp || !panelEmail || !panelWhatsapp) return;
+
+    function showEmail() {
+      tabEmail.classList.add("active");
+      tabWhatsapp.classList.remove("active");
+      tabEmail.setAttribute("aria-selected", "true");
+      tabWhatsapp.setAttribute("aria-selected", "false");
+      panelEmail.classList.add("active");
+      panelWhatsapp.classList.remove("active");
+    }
+    function showWhatsapp() {
+      tabWhatsapp.classList.add("active");
+      tabEmail.classList.remove("active");
+      tabWhatsapp.setAttribute("aria-selected", "true");
+      tabEmail.setAttribute("aria-selected", "false");
+      panelWhatsapp.classList.add("active");
+      panelEmail.classList.remove("active");
+    }
+    tabEmail.addEventListener("click", showEmail);
+    tabWhatsapp.addEventListener("click", showWhatsapp);
+  }
+
   const form  = document.getElementById("waitlistForm");
   const popup = document.getElementById("successPopup");
+  const submitBtn = document.getElementById("waitlistSubmitBtn");
+  const formNote = document.getElementById("waitlistFormNote");
+
+  const RESUBMIT_COOLDOWN_MS = 30000; // 30s between submissions from this browser
+  const LAST_SUBMIT_KEY = "stackra_waitlist_last_submit";
 
   form.addEventListener("submit", async function(e) {
     e.preventDefault();
+
+    // Honeypot: real users never see or fill this field. If it's
+    // populated, silently drop the submission without hitting Google.
+    const honeypot = document.getElementById("companyWebsite");
+    if (honeypot && honeypot.value.trim() !== "") {
+      form.reset();
+      return;
+    }
+
+    // Client-side resubmit throttle: blocks rapid repeat submissions
+    // from this same browser (accidental double-clicks, naive bots).
+    // This does NOT stop someone from posting directly to the Google
+    // Forms endpoint from outside this page.
+    let lastSubmit = 0;
+    try { lastSubmit = Number(localStorage.getItem(LAST_SUBMIT_KEY)) || 0; } catch (err) { lastSubmit = 0; }
+    const now = Date.now();
+    if (now - lastSubmit < RESUBMIT_COOLDOWN_MS) {
+      if (formNote) formNote.textContent = "You already joined recently, sit tight.";
+      return;
+    }
+
     const email = document.getElementById("emailInput").value.trim();
     if (!email) return;
+
     const formURL  = "https://docs.google.com/forms/d/e/1FAIpQLSflvVxMwq-SNghfDiP2QobYX0CfAvtkpFfQKUBWqZ1YPfVr-Q/formResponse";
     const formData = new FormData();
     formData.append("entry.1782561426", email);
     fetch(formURL, { method: "POST", mode: "no-cors", body: formData }).catch(() => {});
+
+    try { localStorage.setItem(LAST_SUBMIT_KEY, String(now)); } catch (err) { /* localStorage unavailable, skip throttle persistence */ }
+
     popup.classList.add("open");
     form.reset();
   });
@@ -1168,6 +1512,9 @@
   }, { threshold: 0.10, rootMargin: "0px 0px -40px 0px" });
 
   revealEls.forEach((el) => revealObserver.observe(el));
+
+  initWhatsappLink();
+  initContactToggle();
 </script>
 
 </body>
