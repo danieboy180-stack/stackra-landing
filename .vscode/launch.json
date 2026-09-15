@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Edge DevTools (Embedded Screencast)",
+      "type": "vscode-edge-devtools.debug",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}",
+      "headless": true
+    },
+    {
+      "name": "Launch Edge DevTools (External Browser)",
+      "type": "vscode-edge-devtools.debug",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}",
+      "headless": false
+    },
+    {
+      "name": "Attach Edge DevTools",
+      "type": "vscode-edge-devtools.debug",
+      "request": "attach",
+      "url": "http://localhost:3000",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "vscode-edge-devtools.defaultUrl": "http://localhost:3000",
+  "vscode-edge-devtools.webRoot": "${workspaceFolder}",
+  "vscode-edge-devtools.headless": true,
+  "vscode-edge-devtools.mirrorEdits": true
+}
