@@ -1,0 +1,10 @@
+{
+  "name":"Stackra",
+  "short_name":"Stackra",
+  "start_url":"/",
+  "display":"standalone",
+  "background_color":"#08090a",
+  "theme_color":"#08090a",
+  "description":"Commerce workspace for African merchants.",
+  "icons":[{"src":"/icon.svg","sizes":"any","type":"image/svg+xml"}]
+}
