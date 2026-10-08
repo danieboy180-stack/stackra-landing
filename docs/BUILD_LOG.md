@@ -46,6 +46,12 @@
 - A true visual score loop and Lighthouse score collection still require an actual browser/test runner execution; this agent runtime does not expose one.
 
 ## Phase 9 — Preview deployment and handoff
-- Preview deployment triggered from the latest branch tip.
-- Final build state and URL are being verified.
+- Final production build passes: placeholder guard, TypeScript, ESLint and Next build.
+- Dependency audit passes with 0 vulnerabilities.
+- Browser-level production-server validation passes for all required routes: 200 responses, one H1 per public route, no page errors or console errors.
+- Axe serious/critical checks pass in both light and dark themes.
+- Theme toggle and mobile navigation interaction pass in Chromium desktop and mobile emulation.
+- Responsive screenshot capture passes for 320/375/768/1024/1440/1920/2560 in both themes (14 full-page captures).
+- Lighthouse CLI healthcheck passes when pointed at Playwright Chromium, but Lighthouse collection itself crashes the local headless tab in this sandbox; no Lighthouse score is claimed.
+- Persistent Vercel deployment could not be created after the team reached its 100 deployments/day API limit. Latest validated build is available through the live Vercel Sandbox preview created for this branch.
 - Production asset handoff remains documented in ASSETS.md for self-hosting the preview photography.
