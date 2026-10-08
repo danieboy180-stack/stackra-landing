@@ -28,8 +28,13 @@ function ThemeMenu({ mobile = false }: { mobile?: boolean }) {
   const [theme, setTheme] = useState<Theme>("system");
 
   useEffect(() => {
+    const boot = document.documentElement.dataset.themePreference as Theme | undefined;
     const saved = localStorage.getItem("stackra-theme") as Theme | null;
-    const initial = saved === "light" || saved === "dark" || saved === "system" ? saved : "system";
+    const initial = boot === "light" || boot === "dark" || boot === "system"
+      ? boot
+      : saved === "light" || saved === "dark" || saved === "system"
+        ? saved
+        : "system";
     setTheme(initial);
     applyTheme(initial);
   }, []);
