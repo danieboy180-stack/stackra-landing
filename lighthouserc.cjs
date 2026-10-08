@@ -13,7 +13,10 @@ module.exports = {
         "http://127.0.0.1:3000/pricing?theme=dark"
       ],
       numberOfRuns: 1,
-      settings: { preset: "mobile" }
+      settings: {
+        formFactor: "mobile",
+        chromeFlags: "--no-sandbox --disable-gpu"
+      }
     },
     assert: {
       assertions: {
