@@ -1,197 +1,162 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ChevronRightIcon } from "@radix-ui/react-icons";
+import { Newsreader } from "next/font/google";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+const serif = Newsreader({ subsets: ["latin"], weight: "400" });
+
+type Slot = {
+  /** Company name shown in the tab. Empty for now. */
+  name: string;
+  quote: string;
+  author: string;
+  role: string;
+  href?: string;
+};
+
+// Tabs are placeholders: fill in `name` (plus quote, author, role) per slot.
+const slots: Slot[] = [
+  { name: "", quote: "", author: "", role: "" },
+  { name: "", quote: "", author: "", role: "" },
+  { name: "", quote: "", author: "", role: "" },
+  { name: "", quote: "", author: "", role: "" },
+  { name: "", quote: "", author: "", role: "" },
+  { name: "", quote: "", author: "", role: "" },
+];
+
+const PLACEHOLDER_QUOTE =
+  "Your customer’s words go here — a couple of lines on how Stackra helped them start selling and grow their business.";
 
 export default function Testimonials() {
-  const [showAll, setShowAll] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const visibleCount = isMobile ? 2 : 6;
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "CEO at TechStart",
-      avatar: "https://i.pravatar.cc/150?img=1",
-      content:
-        "This platform has transformed how we manage our business. The analytics features alone have saved us countless hours and improved our decision-making process significantly.",
-      rating: 5,
-    },
-    {
-      name: "Marcus Rodriguez",
-      role: "Product Manager at Scale Co",
-      avatar: "https://i.pravatar.cc/150?img=3",
-      content:
-        "The integration capabilities are outstanding. We were able to connect all our existing tools seamlessly. The customer support team is also incredibly responsive and helpful.",
-      rating: 5,
-    },
-    {
-      name: "Emma Thompson",
-      role: "CTO at DataFlow",
-      avatar: "https://i.pravatar.cc/150?img=5",
-      content:
-        "Security was our main concern when choosing a platform, and this solution exceeded our expectations. The encryption and compliance features give us complete peace of mind.",
-      rating: 5,
-    },
-    {
-      name: "Robert Taylor",
-      role: "CTO at FinanceFlow",
-      avatar: "https://i.pravatar.cc/150?img=15",
-      content:
-        "Security and compliance are critical in our industry. This platform not only meets but exceeds all our regulatory requirements.",
-      rating: 5,
-    },
-    {
-      name: "Maria Garcia",
-      role: "Director of Operations at StreamlineOps",
-      avatar: "https://i.pravatar.cc/150?img=17",
-      content:
-        "The customer support is phenomenal. Every question gets answered quickly and thoroughly. It's like having an extended team member.",
-      rating: 5,
-    },
-    {
-      name: "Kevin Lee",
-      role: "Founder at NextGen Solutions",
-      avatar: "https://i.pravatar.cc/150?img=19",
-      content:
-        "We've tried many platforms, but this one stands out for its reliability and performance. Zero downtime in 18 months of usage.",
-      rating: 5,
-    },
-    {
-      name: "Sophie Anderson",
-      role: "Product Lead at InnovateLab",
-      avatar: "https://i.pravatar.cc/150?img=21",
-      content:
-        "The analytics dashboard gives us insights we never had before. Data-driven decisions have become our competitive advantage.",
-      rating: 5,
-    },
-    {
-      name: "James Wilson",
-      role: "Engineering Manager at TechBridge",
-      avatar: "https://i.pravatar.cc/150?img=23",
-      content:
-        "Migration was seamless and the onboarding process was exceptional. Our team was productive from day one.",
-      rating: 5,
-    },
-    {
-      name: "Elena Petrov",
-      role: "CEO at GrowthMetrics",
-      avatar: "https://i.pravatar.cc/150?img=25",
-      content:
-        "The platform scales beautifully with our business. From startup to enterprise, it has grown with us every step of the way.",
-      rating: 5,
-    },
-    {
-      name: "Michael Chang",
-      role: "Head of Product at DataDriven",
-      avatar: "https://i.pravatar.cc/150?img=27",
-      content:
-        "Real-time collaboration features have transformed how our remote team works together. Productivity has increased dramatically.",
-      rating: 5,
-    },
-  ];
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduceMotion = useReducedMotion();
 
-  const StarIcon = () => (
-    <svg
-      className="h-3.5 w-3.5 text-yellow-500 sm:h-4 sm:w-4"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-    >
-      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-    </svg>
-  );
-
+  // Rotates through the tabs; pauses on hover/focus and restarts on every manual pick.
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const updateIsMobile = () => setIsMobile(mediaQuery.matches);
+    if (paused || reduceMotion) return;
+    const id = window.setTimeout(
+      () => setActive((a) => (a + 1) % slots.length),
+      6000
+    );
+    return () => window.clearTimeout(id);
+  }, [active, paused, reduceMotion]);
 
-    updateIsMobile();
-    mediaQuery.addEventListener("change", updateIsMobile);
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateIsMobile);
-    };
-  }, []);
+  const slot = slots[active];
 
   return (
     <section id="testimonials" className="px-3 py-16 sm:px-4 sm:py-24">
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-7xl md:px-4 lg:px-6">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-12 flex flex-col gap-3 text-center sm:mb-20"
+          className="mb-8 flex flex-col items-start gap-5 sm:mb-12 sm:flex-row sm:justify-between sm:gap-8"
         >
-          <h2 className="text-xl font-semibold sm:text-2xl bg-linear-to-b from-foreground to-muted-foreground text-transparent bg-clip-text">
-            Loved by Teams Worldwide
+          <h2 className="max-w-xl text-3xl font-medium tracking-tight text-balance sm:text-4xl md:text-5xl">
+            Why modern businesses choose Stackra to power their growth
           </h2>
-          <p className="mx-auto max-w-xl text-muted-foreground text-center">
-            Join thousands of companies that trust our platform.
-          </p>
+          <Button asChild variant="outline" className="shrink-0 rounded-xl">
+            <a href="#customers">View all customers</a>
+          </Button>
         </motion.div>
 
-        <div className="relative">
-          <div className="columns-2 gap-3 space-y-3 sm:gap-8 sm:space-y-8 md:columns-2 lg:columns-3">
-            {(showAll ? testimonials : testimonials.slice(0, visibleCount)).map(
-              (testimonial, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.6,
-                    delay: index * 0.05,
-                    ease: "easeOut",
-                  }}
-                  className="mb-3 break-inside-avoid sm:mb-8"
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={() => setPaused(false)}
+          className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#171717] text-white"
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-24 -bottom-32 h-80 w-[70%] rounded-full bg-violet-600/25 blur-[110px]"
+          />
+
+          <div className="relative px-5 pt-6 sm:px-8 sm:pt-8 md:px-10 md:pt-10">
+            {/* Photo slot, left empty on purpose */}
+            <div
+              aria-hidden
+              className="size-20 rounded-xl bg-white/10 sm:size-24"
+            />
+
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="min-h-[280px] sm:min-h-[320px]"
+              >
+                <blockquote
+                  className={cn(
+                    serif.className,
+                    "mt-8 max-w-4xl text-3xl leading-[1.15] tracking-tight text-white/90 sm:mt-10 sm:text-4xl md:text-[44px]"
+                  )}
                 >
-                  <div className="rounded-lg border border-border bg-card p-3 transition-colors duration-300 sm:rounded-xl sm:p-6">
-                    <div className="mb-2 flex sm:mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <StarIcon key={i} />
-                      ))}
-                    </div>
-
-                    <p className="mb-4 text-xs leading-snug text-muted-foreground sm:mb-6 sm:text-sm sm:leading-relaxed">
-                      &ldquo;{testimonial.content}&rdquo;
-                    </p>
-
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/20 bg-linear-to-br from-primary/20 to-primary/10 text-xs font-medium sm:h-10 sm:w-10 sm:text-sm">
-                        {testimonial.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </div>
-                      <div className="min-w-0">
-                        <h4 className="truncate text-xs font-semibold sm:text-sm">
-                          {testimonial.name}
-                        </h4>
-                        <p className="truncate text-[10px] leading-tight text-muted-foreground sm:text-xs">
-                          {testimonial.role}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ),
-            )}
+                  “{slot.quote || PLACEHOLDER_QUOTE}”
+                </blockquote>
+                <p className="mt-8 text-sm sm:mt-10">
+                  <span className="font-medium">
+                    {slot.author || "Customer name"}
+                  </span>{" "}
+                  <span className="text-white/50">{slot.role || "Role"}</span>
+                </p>
+                <a
+                  href={slot.href ?? "#customers"}
+                  className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-white/90 transition-colors hover:text-white"
+                >
+                  Read story
+                  <ChevronRightIcon className="size-4 text-white/50" />
+                </a>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
-          {!showAll && testimonials.length > visibleCount && (
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-background via-background/90 to-transparent" />
-          )}
-        </div>
-
-        {!showAll && testimonials.length > visibleCount && (
-          <div className="mt-4 flex justify-center">
-            <Button variant="ghost" onClick={() => setShowAll(true)}>
-              Ver más
-            </Button>
+          <div
+            role="tablist"
+            aria-label="Customer stories"
+            className="relative mt-10 flex gap-2 overflow-x-auto px-3 pb-3 [scrollbar-width:none] sm:mt-16 sm:px-4 sm:pb-4 md:grid md:grid-cols-6 md:overflow-visible [&::-webkit-scrollbar]:hidden"
+          >
+            {slots.map((s, i) => {
+              const isActive = active === i;
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-label={s.name || `Customer ${i + 1}`}
+                  onClick={() => setActive(i)}
+                  className={cn(
+                    "relative flex h-16 min-w-28 flex-1 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-4 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-white/40 sm:h-[72px] md:min-w-0",
+                    isActive ? "text-white" : "text-white/50 hover:text-white/80"
+                  )}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="testimonial-tab"
+                      aria-hidden
+                      transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                      className="absolute inset-0 rounded-xl border border-white/20 bg-white/10 shadow-[0_0_48px_-6px_rgba(139,92,246,0.65)]"
+                    />
+                  )}
+                  <span className="relative">{s.name}</span>
+                </button>
+              );
+            })}
           </div>
-        )}
+        </motion.div>
       </div>
     </section>
   );
