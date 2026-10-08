@@ -151,7 +151,7 @@ export function SiteChrome() {
         </div>
       )}
 
-      <div className={`mobile-sheet ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
+      <div className={`mobile-sheet ${menuOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Mobile navigation" aria-hidden={!menuOpen}>
         <div className="mobile-links">
           {menuGroups.flatMap((g) => g.links).filter((v, i, a) => a.findIndex((x) => x.label === v.label) === i).map((link) => <Link key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}<ArrowUpRight size={17} /></Link>)}
           <Link href="/about" onClick={() => setMenuOpen(false)}>About <ArrowUpRight size={17} /></Link>
