@@ -46,7 +46,7 @@ function ThemeMenu({ mobile = false }: { mobile?: boolean }) {
 
   return (
     <div className={`theme-menu ${mobile ? "theme-menu-mobile" : ""}`}>
-      <button className="icon-button" aria-label="Theme" title="Theme" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((v) => !v)} title="Theme">
+      <button className="icon-button" aria-label="Theme" title="Theme" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
         {icon}<span className="theme-label">{label}</span><ChevronDown size={14} />
       </button>
       {open && (
