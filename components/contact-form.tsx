@@ -16,10 +16,10 @@ export function ContactForm() {
         const response = await fetch("/api/contact", { method: "POST", body: data });
         const payload = (await response.json()) as { ok: boolean; message: string };
         setStatus({ kind: payload.ok ? "success" : "error", message: payload.message });
+        if (payload.ok) form.reset();
       } catch {
         setStatus({ kind: "error", message: "We couldn't reach the contact service. Please use WhatsApp instead." });
       }
-      if (payload.ok) form.reset();
     });
   }
 
