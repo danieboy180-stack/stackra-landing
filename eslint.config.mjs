@@ -1,7 +1,8 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
+import tseslint from "typescript-eslint";
 
-export default defineConfig([
-  ...nextVitals,
-  globalIgnores([".next/**", "out/**", "next-env.d.ts"])
-]);
+export default tseslint.config(
+  {
+    ignores: [".next/**", "out/**", "next-env.d.ts", "test-results/**"]
+  },
+  ...tseslint.configs.recommended
+);
