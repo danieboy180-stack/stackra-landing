@@ -40,7 +40,7 @@ export default function NavBar() {
   }, []);
 
   const menuItems = [
-    { name: "Pricing", href: "#pricing" },
+    { name: "How it works", href: "#how-it-works" },
     { name: "Testimonials", href: "#testimonials" },
   ];
 
@@ -82,7 +82,7 @@ export default function NavBar() {
             </Link>
 
             <Button asChild variant="ghost" size="sm">
-              <Link href="#pricing">Pricing</Link>
+              <Link href="#how-it-works">How it works</Link>
             </Button>
 
             <Button asChild variant="ghost" size="sm">
