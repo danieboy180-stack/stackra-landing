@@ -24,7 +24,7 @@ export function ContactForm() {
   }
 
   return (
-    <form action={(formData) => {
+    <form action={() => {
       const form = document.getElementById("contact-form") as HTMLFormElement | null;
       if (form) submit(form);
     }} id="contact-form" className="form-stack" aria-describedby="form-status">
