@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./dub.css";
 import { Providers } from "./providers";
 import NavBar from "@/components/navbar";
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const geist = Geist({
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "SaaS Landing Template",
-  description: "Landing Page template.",
+  title: "Stackra: The simpler way to sell online",
+  description: "Create your store. Share it. Start selling.",
 };
 
 export default function RootLayout({
@@ -19,8 +21,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geist.className} antialiased`}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        {/* Satoshi (Dub's heading font) from Fontshare's hosted CSS */}
+        <link
+          rel="preconnect"
+          href="https://api.fontshare.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://cdn.fontshare.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap"
+        />
+      </head>
+      <body className={`${inter.className} antialiased`}>
         <Providers>
           <NavBar />
           {children}
