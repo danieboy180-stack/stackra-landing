@@ -1,91 +1,122 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { motion } from "framer-motion";
-import Link from "next/link";
+
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useReducedMotion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+const sentences = [
+  "The simpler way to sell online.",
+  "Create your store.",
+  "Share it.",
+  "Start selling.",
+];
+
+// Empty placeholder cards (no pictures yet). The first four follow the sentences
+// above, the rest keep the strip filled. Mixed portrait/landscape like shopify.com.
+const cards = [
+  "portrait",
+  "landscape",
+  "portrait",
+  "landscape",
+  "portrait",
+  "landscape",
+] as const;
+
+function Strip({ active }: { active: number }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [x, setX] = useState(0);
+
+  // Slide so the active card sits near the left edge with a peek of the previous one.
+  useEffect(() => {
+    const update = () => {
+      const card = trackRef.current?.children[active] as
+        | HTMLElement
+        | undefined;
+      if (!card) return;
+      const peek = window.innerWidth < 640 ? 44 : 96;
+      setX(active === 0 ? 0 : peek - card.offsetLeft);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [active]);
+
+  return (
+    <div className="overflow-hidden">
+      <div
+        ref={trackRef}
+        style={{ transform: `translate3d(${x}px, 0, 0)` }}
+        className="relative flex w-max gap-3 pr-4 pl-[max(1rem,calc((100%_-_80rem)/2_+_1rem))] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none sm:gap-4 sm:pl-[max(1.5rem,calc((100%_-_80rem)/2_+_1.5rem))] lg:pl-[max(2rem,calc((100%_-_80rem)/2_+_2rem))]"
+      >
+        {cards.map((shape, i) => (
+          <div
+            key={i}
+            className={cn(
+              "h-[240px] shrink-0 rounded-2xl border border-border bg-muted sm:h-[340px] lg:h-[460px]",
+              shape === "portrait" ? "aspect-[137/241]" : "aspect-[740/464]"
+            )}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Hero() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  // Highlight moves through the sentences; pauses on hover, restarts on every pick.
+  useEffect(() => {
+    if (paused || reduceMotion) return;
+    const id = window.setTimeout(
+      () => setActive((a) => (a + 1) % sentences.length),
+      4200
+    );
+    return () => window.clearTimeout(id);
+  }, [active, paused, reduceMotion]);
+
+  const onKey = (e: KeyboardEvent, i: number) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setActive(i);
+    }
+  };
+
   return (
-    <div className="relative justify-center items-center">
-      <section className="max-w-(--breakpoint-xl) mx-auto px-4 py-28 gap-12 md:px-8 flex flex-col justify-center items-center">
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{
-            y: 0,
-            opacity: 1,
-          }}
-          transition={{ duration: 0.6, type: "spring", bounce: 0 }}
-          className="flex flex-col justify-center items-center space-y-5 max-w-4xl mx-auto text-center"
-        >
-          <span className="w-fit h-full text-sm bg-card px-2 py-1 border border-border rounded-full">
-            New template!
-          </span>
-          <h1 className="text-4xl font-medium tracking-tighter mx-auto md:text-6xl text-pretty bg-linear-to-b from-sky-800 dark:from-sky-100 to-foreground dark:to-foreground bg-clip-text text-transparent">
-            Beautiful Landing Page Template for SaaS Startups
-          </h1>
-          <p className="max-w-2xl text-lg mx-auto text-muted-foreground text-balance">
-            Create your next landing page using this free template.
-          </p>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="items-center justify-center gap-x-3 space-y-3 sm:flex sm:space-y-0"
-          >
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="shadow-lg">See more</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Gonzalo Chalé</DialogTitle>
-                  <DialogDescription>
-                    I&apos;m Software Engineer from Cancún, México, always
-                    building things for the web.
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <Button asChild size="sm">
-                    <Link href="https://x.com/gonzalochale" target="_blank">
-                      Connect on{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        fill="none"
-                        viewBox="0 0 1200 1227"
-                        className="ml-1"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z"
-                        />
-                      </svg>
-                    </Link>
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </motion.div>
-        </motion.div>
-      </section>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2, delay: 0.5, type: "spring", bounce: 0 }}
-        className="w-full h-full absolute -top-32 flex justify-end items-center pointer-events-none "
-      >
-        <div className="w-3/4 flex justify-center items-center">
-          <div className="w-12 h-150 bg-light blur-[70px] rounded-3xl max-sm:rotate-15 sm:rotate-35 will-change-transform"></div>
-        </div>
-      </motion.div>
-    </div>
+    <section
+      className="pb-14 pt-8 sm:pb-20 sm:pt-14"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h1 className="max-w-5xl text-[44px] leading-[1.04] font-medium tracking-tighter sm:text-6xl md:text-7xl lg:text-[88px]">
+          {sentences.map((sentence, i) => (
+            <span key={sentence}>
+              <span
+                role="button"
+                tabIndex={0}
+                aria-pressed={i === active}
+                onClick={() => setActive(i)}
+                onKeyDown={(e) => onKey(e, i)}
+                className={cn(
+                  "cursor-pointer rounded-sm outline-none transition-colors duration-500 focus-visible:ring-2 focus-visible:ring-ring/60",
+                  i === active
+                    ? "text-foreground"
+                    : "text-foreground/45 hover:text-foreground/70"
+                )}
+              >
+                {sentence}
+              </span>{" "}
+            </span>
+          ))}
+        </h1>
+      </div>
+
+      <div aria-hidden className="mt-10 sm:mt-14">
+        <Strip active={active} />
+      </div>
+    </section>
   );
 }
