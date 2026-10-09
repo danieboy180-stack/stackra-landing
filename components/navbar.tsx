@@ -1,67 +1,84 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import ThemeSwitcher from "@/components/theme-switcher";
-import {
-  ChevronDownIcon,
-  FaceIcon,
-  GlobeIcon,
-  OpenInNewWindowIcon,
-  PersonIcon,
-  TimerIcon,
-  HamburgerMenuIcon,
-  Cross1Icon,
-} from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
+import ThemeSwitcher from "@/components/theme-switcher";
+import { StackraLogo } from "@/components/stackra-logo";
+import { APP_URL } from "@/lib/site";
+import { cn } from "@/lib/utils";
+
+const links = [
+  { name: "How it works", href: "#how-it-works" },
+  { name: "Customers", href: "#customers" },
+  { name: "Testimonials", href: "#testimonials" },
+];
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    const onScroll = () => setIsScrolled(window.scrollY > 0);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const menuItems = [
-    { name: "How it works", href: "#how-it-works" },
-    { name: "Testimonials", href: "#testimonials" },
-  ];
-
-  const showNavbarBlur = isScrolled || isMenuOpen;
+  const showBorder = isScrolled || isMenuOpen;
 
   return (
     <nav
-      className={`sticky top-0 z-50 w-full transition-[background-color,backdrop-filter] duration-300 ease-out ${
-        showNavbarBlur
-          ? "backdrop-blur supports-backdrop-filter:bg-background/60"
-          : "backdrop-blur-0 supports-backdrop-filter:bg-background/0"
-      }`}
+      className={cn(
+        "sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md transition-[border-color] duration-300",
+        showBorder ? "border-border" : "border-transparent"
+      )}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex sm:hidden">
+      <div className="mx-auto max-w-[1392px] px-4 sm:px-6 lg:px-8">
+        <div className="flex h-14 items-center justify-between sm:h-16">
+          <Link
+            href="/"
+            aria-label="Stackra home"
+            className="text-foreground transition-opacity hover:opacity-80"
+          >
+            <StackraLogo className="h-8 w-auto" />
+          </Link>
+
+          <div className="hidden items-center gap-1 sm:mr-auto sm:ml-8 sm:flex">
+            {links.map((link) => (
+              <Button key={link.name} asChild variant="ghost" size="sm">
+                <Link href={link.href}>{link.name}</Link>
+              </Button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Link
+              href={APP_URL}
+              className="px-2 text-[15px] font-medium underline underline-offset-4 sm:hidden"
+            >
+              Start for free
+            </Link>
+
+            <div className="hidden items-center gap-2 sm:flex">
+              <ThemeSwitcher />
+              <Button asChild variant="outline">
+                <Link href={APP_URL}>Log in</Link>
+              </Button>
+              <Button asChild>
+                <Link href={APP_URL}>Start for free</Link>
+              </Button>
+            </div>
+
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative"
+              className="sm:hidden"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((open) => !open)}
             >
               <motion.div
                 animate={{ rotate: isMenuOpen ? 90 : 0 }}
@@ -71,107 +88,8 @@ export default function NavBar() {
               </motion.div>
             </Button>
           </div>
-          <div className="flex sm:hidden">
-            <Link href="/" className="font-light tracking-tighter text-lg">
-              Acme
-            </Link>
-          </div>
-          <div className="hidden sm:flex items-center space-x-8">
-            <Link href="/" className="font-light tracking-tighter text-2xl">
-              Acme
-            </Link>
-
-            <Button asChild variant="ghost" size="sm">
-              <Link href="#how-it-works">How it works</Link>
-            </Button>
-
-            <Button asChild variant="ghost" size="sm">
-              <Link href="#testimonials">Testimonials</Link>
-            </Button>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm">
-                  Dropdown
-                  <ChevronDownIcon className="ml-1 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-80">
-                <DropdownMenuItem>
-                  <OpenInNewWindowIcon className="mr-2 h-4 w-4" />
-                  <div>
-                    <div className="font-semibold">Autoscaling</div>
-                    <div className="text-sm text-muted-foreground">
-                      ACME scales apps to meet user demand, automagically, based
-                      on load.
-                    </div>
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <PersonIcon className="mr-2 h-4 w-4" />
-                  <div>
-                    <div className="font-semibold">Usage Metrics</div>
-                    <div className="text-sm text-muted-foreground">
-                      Real-time metrics to debug issues. Slow query added?
-                      We&apos;ll show you exactly where.
-                    </div>
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <GlobeIcon className="mr-2 h-4 w-4" />
-                  <div>
-                    <div className="font-semibold">Production Ready</div>
-                    <div className="text-sm text-muted-foreground">
-                      ACME runs on ACME, join us and others serving requests at
-                      web scale.
-                    </div>
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <TimerIcon className="mr-2 h-4 w-4" />
-                  <div>
-                    <div className="font-semibold">+99% Uptime</div>
-                    <div className="text-sm text-muted-foreground">
-                      Applications stay on the grid with high availability and
-                      high uptime guarantees.
-                    </div>
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <FaceIcon className="mr-2 h-4 w-4" />
-                  <div>
-                    <div className="font-semibold">+Supreme Support</div>
-                    <div className="text-sm text-muted-foreground">
-                      Overcome any challenge with a supporting team ready to
-                      respond.
-                    </div>
-                  </div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button asChild className="hidden sm:flex" size="sm">
-              <Link href="https://x.com/gonzalochale" target="_blank">
-                Connect on{" "}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  fill="none"
-                  viewBox="0 0 1200 1227"
-                  className="ml-1 size-4"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z"
-                  />
-                </svg>
-              </Link>
-            </Button>
-            <ThemeSwitcher />
-          </div>
         </div>
+
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -179,60 +97,32 @@ export default function NavBar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="sm:hidden overflow-hidden"
+              className="overflow-hidden sm:hidden"
             >
-              <motion.div
-                initial={{ y: -20 }}
-                animate={{ y: 0 }}
-                exit={{ y: -20 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-                className="px-2 pt-2 pb-3 space-y-1"
-              >
-                {menuItems.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.2 + index * 0.1 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className="block px-3 py-2 text-base font-medium text-foreground hover:bg-muted rounded-md transition-colors duration-200"
-                      onClick={() => setIsMenuOpen(false)}
+              <div className="space-y-1 pt-2 pb-4">
+                {[...links, { name: "Log in", href: APP_URL }].map(
+                  (item, index) => (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 + index * 0.08 }}
                     >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                ))}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.4 }}
-                  className=""
-                >
-                  <Link
-                    href="https://x.com/gonzalochale"
-                    target="_blank"
-                    className="flex items-center gap-1 whitespace-nowrap px-3 py-2 text-base font-medium text-foreground hover:bg-muted rounded-md transition-colors duration-200"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <span>Connect on</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="none"
-                      viewBox="0 0 1200 1227"
-                      className="size-3"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z"
-                      />
-                    </svg>
-                  </Link>
-                </motion.div>
-              </motion.div>
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block rounded-lg px-3 py-3 text-lg font-medium text-foreground transition-colors hover:bg-muted"
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
+                  )
+                )}
+                <div className="flex items-center justify-between rounded-lg px-3 text-lg font-medium">
+                  <span>Theme</span>
+                  <ThemeSwitcher />
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
