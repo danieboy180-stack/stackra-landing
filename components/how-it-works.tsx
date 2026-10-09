@@ -87,7 +87,7 @@ export default function HowItWorks() {
               <Button
                 asChild
                 size="lg"
-                className="h-11 rounded-xl bg-white px-6 text-[15px] text-neutral-900 hover:bg-white/90"
+                className="border-white bg-white text-neutral-900 hover:bg-white/90 hover:ring-white/20"
               >
                 <a href={APP_URL}>Start selling</a>
               </Button>
