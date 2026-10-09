@@ -1,0 +1,14 @@
+/* Dub-style typography: Satoshi for headings (hosted CSS loaded in layout.tsx), Inter for body text. */
+:root {
+  --font-display: "Satoshi", var(--font-inter), ui-sans-serif, system-ui,
+    sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
