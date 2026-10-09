@@ -1,26 +1,28 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
 
 export default function ThemeSwitcher() {
-  const [svg, setSvg] = useState(<MoonIcon />);
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const handleClick = () => {
-    if (theme === "light") {
-      setTheme("dark");
-      setSvg(<MoonIcon />);
-    } else {
-      setTheme("light");
-      setSvg(<SunIcon />);
-    }
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
-    <Button variant="ghost" size="icon" onClick={handleClick}>
-      {svg}
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Toggle theme"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+    >
+      {isDark ? <MoonIcon /> : <SunIcon />}
     </Button>
   );
 }
