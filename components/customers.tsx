@@ -27,10 +27,7 @@ export default function Customers() {
   const [active, setActive] = useState(0);
 
   return (
-    <section
-      id="customers"
-      className="px-3 pb-16 pt-10 sm:px-4 sm:pb-24 sm:pt-16"
-    >
+    <section id="customers" className="px-3 py-16 sm:px-4 sm:py-24">
       <div className="mx-auto max-w-7xl md:px-4 lg:px-6">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -46,19 +43,10 @@ export default function Customers() {
             complexity.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button
-              asChild
-              size="lg"
-              className="h-11 rounded-xl px-5 text-[15px]"
-            >
+            <Button asChild size="lg">
               <a href={APP_URL}>Start selling</a>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="h-11 rounded-xl px-5 text-[15px]"
-            >
+            <Button asChild variant="outline" size="lg">
               <a href="#how-it-works">See how it works</a>
             </Button>
           </div>
@@ -106,7 +94,7 @@ export default function Customers() {
                       <Button
                         asChild
                         size="sm"
-                        className="mt-4 bg-white text-neutral-900 hover:bg-white/90"
+                        className="mt-4 border-white bg-white text-neutral-900 hover:bg-white/90"
                       >
                         <a href={story.href}>Read story</a>
                       </Button>
