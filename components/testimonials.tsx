@@ -61,7 +61,7 @@ export default function Testimonials() {
           <h2 className="max-w-xl text-3xl font-medium tracking-tight text-balance sm:text-4xl md:text-5xl">
             Why modern businesses choose Stackra to power their growth
           </h2>
-          <Button asChild variant="outline" className="shrink-0 rounded-xl">
+          <Button asChild variant="outline" className="shrink-0">
             <a href="#customers">View all customers</a>
           </Button>
         </motion.div>
