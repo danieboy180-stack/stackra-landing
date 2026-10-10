@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { InstagramLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { StackraLogo, StackraMark } from "@/components/stackra-logo";
-import { APP_URL } from "@/lib/site";
 
 function XIcon({ className }: { className?: string }) {
   return (
@@ -20,35 +19,37 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-// Social URLs and the Company links are placeholders ("#") until the real ones are set.
+// Social URLs are placeholders ("#") until the real ones are set.
 const socials = [
   { name: "X", href: "#", Icon: XIcon },
   { name: "LinkedIn", href: "#", Icon: LinkedInLogoIcon },
   { name: "Instagram", href: "#", Icon: InstagramLogoIcon },
 ];
 
+// Every link opens a page from lib/pages. A column title with an href is a link too.
 const columns = [
   {
     title: "Product",
     links: [
-      { name: "How it works", href: "#how-it-works" },
-      { name: "Customers", href: "#customers" },
-      { name: "Testimonials", href: "#testimonials" },
+      { name: "How it works", href: "/how-it-works" },
+      { name: "Customers", href: "/customers" },
+      { name: "Testimonials", href: "/testimonials" },
     ],
   },
   {
     title: "Get started",
+    href: "/get-started",
     links: [
-      { name: "Start selling", href: APP_URL },
-      { name: "Sign in", href: APP_URL },
+      { name: "Start selling", href: "/start-selling" },
+      { name: "Sign in", href: "/sign-in" },
     ],
   },
   {
     title: "Company",
     links: [
-      { name: "About", href: "#" },
-      { name: "Contact", href: "#" },
-      { name: "Privacy", href: "#" },
+      { name: "About", href: "/about" },
+      { name: "Contact", href: "/contact" },
+      { name: "Privacy", href: "/privacy" },
     ],
   },
 ];
@@ -109,7 +110,18 @@ export default function Footer() {
           >
             {columns.map((col) => (
               <div key={col.title} className="flex flex-col gap-4">
-                <h3 className="text-sm font-medium">{col.title}</h3>
+                <h3 className="text-sm font-medium">
+                  {col.href ? (
+                    <Link
+                      href={col.href}
+                      className="transition-opacity hover:opacity-70"
+                    >
+                      {col.title}
+                    </Link>
+                  ) : (
+                    col.title
+                  )}
+                </h3>
                 <ul className="flex flex-col gap-3">
                   {col.links.map((link) => (
                     <li key={link.name}>
