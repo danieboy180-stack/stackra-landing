@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import { DocBody, Inline, getHeadings } from "@/components/doc-body";
 import { groups, pages, type DocPageData } from "@/lib/pages";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,13 @@ function SidebarNav({ current }: { current: string }) {
     </nav>
   );
 }
+
+// Circle that holds the arrow in the previous/next cards.
+const arrowCircle =
+  "flex size-10 shrink-0 items-center justify-center rounded-full bg-background text-foreground shadow-sm ring-1 ring-black/[0.06] dark:ring-white/10";
+
+const navCard =
+  "group flex items-center gap-4 rounded-[22px] bg-muted/60 p-4 ring-1 ring-black/[0.04] transition-all hover:bg-muted active:scale-[0.99] dark:ring-white/10";
 
 // Docs-style page: sidebar of every page on the left, copy in the middle,
 // "On this page" on the right (wide screens), previous/next at the bottom.
@@ -86,38 +93,61 @@ export default function DocPage({ page }: { page: DocPageData }) {
         <p className="text-sm font-medium text-muted-foreground">
           {page.eyebrow}
         </p>
-        <h1 className="mt-2 text-4xl font-medium tracking-tighter text-balance sm:text-5xl">
-          {page.title}
-        </h1>
-        {page.lead && (
-          <p className="mt-5 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            <Inline text={page.lead} />
-          </p>
-        )}
+
+        {/* Same two-tone heading as the home hero (smaller): title in full contrast, intro dimmed. */}
+        <div className="mt-3 text-[32px] leading-[1.05] font-medium tracking-tighter [font-family:var(--font-display)] sm:text-[40px] lg:text-5xl">
+          <h1 className="inline">{page.title}</h1>
+          {page.lead && (
+            <>
+              {" "}
+              <p className="inline text-foreground/45">
+                <Inline text={page.lead} />
+              </p>
+            </>
+          )}
+        </div>
 
         <div className="mt-10 border-t border-border pt-10 sm:mt-12 sm:pt-12">
           <DocBody body={page.body} />
         </div>
 
-        <div className="mt-16 grid gap-3 border-t border-border pt-8 sm:grid-cols-2">
+        <div className="mt-16 grid gap-3 sm:grid-cols-2">
           {prev ? (
-            <Link
-              href={`/${prev.slug}`}
-              className="rounded-xl border border-border p-4 transition-colors hover:bg-muted/50"
-            >
-              <span className="text-xs text-muted-foreground">Previous</span>
-              <span className="mt-1 block font-medium">{prev.nav}</span>
+            <Link href={`/${prev.slug}`} className={navCard}>
+              <span className={arrowCircle}>
+                <ArrowLeft
+                  className="size-[18px] transition-transform group-hover:-translate-x-0.5"
+                  aria-hidden
+                />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-xs text-muted-foreground">
+                  Previous
+                </span>
+                <span className="mt-0.5 block truncate text-base font-medium">
+                  {prev.nav}
+                </span>
+              </span>
             </Link>
           ) : (
-            <span />
+            <span className="hidden sm:block" />
           )}
           {next ? (
-            <Link
-              href={`/${next.slug}`}
-              className="rounded-xl border border-border p-4 transition-colors hover:bg-muted/50 sm:text-right"
-            >
-              <span className="text-xs text-muted-foreground">Next</span>
-              <span className="mt-1 block font-medium">{next.nav}</span>
+            <Link href={`/${next.slug}`} className={cn(navCard, "justify-between")}>
+              <span className="min-w-0">
+                <span className="block text-xs text-muted-foreground">
+                  Next
+                </span>
+                <span className="mt-0.5 block truncate text-base font-medium">
+                  {next.nav}
+                </span>
+              </span>
+              <span className={arrowCircle}>
+                <ArrowRight
+                  className="size-[18px] transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </span>
             </Link>
           ) : (
             <span />
