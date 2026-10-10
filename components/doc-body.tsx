@@ -1,13 +1,16 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import PicStrip from "@/components/pic-strip";
 
 type Cta = { label: string; href: string; secondary: boolean };
 
 type Block =
   | { t: "h2" | "h3" | "p" | "note"; text: string }
   | { t: "ul"; items: string[] }
-  | { t: "cta"; items: Cta[] };
+  | { t: "cta"; items: Cta[] }
+  | { t: "strip"; count: number }
+  | { t: "pic" };
 
 export const slugify = (text: string) =>
   text
@@ -36,6 +39,10 @@ function parse(src: string): Block[] {
       if (first.startsWith("- ")) {
         return { t: "ul", items: lines.map((l) => l.replace(/^-\s+/, "")) };
       }
+      if (first.startsWith("@strip")) {
+        return { t: "strip", count: Number(first.split(/\s+/)[1]) || 6 };
+      }
+      if (first.startsWith("@pic")) return { t: "pic" };
       if (first.startsWith("@")) {
         const items: Cta[] = [];
         for (const line of lines) {
@@ -124,15 +131,16 @@ export function Inline({ text }: { text: string }) {
 
 export function DocBody({ body }: { body: string }) {
   return (
-    <div className="text-[15px] leading-7 text-foreground/80 sm:text-base sm:leading-7">
+    <div className="text-[16px] leading-7 text-foreground/80 sm:text-[17px] sm:leading-8">
       {parse(body).map((block, i) => {
         switch (block.t) {
+          // Headings use the home hero's style: Satoshi, tight tracking and leading.
           case "h2":
             return (
               <h2
                 key={i}
                 id={slugify(block.text)}
-                className="mt-14 mb-1 scroll-mt-24 text-2xl font-medium tracking-tight text-foreground"
+                className="mt-16 mb-4 scroll-mt-24 text-[28px] leading-[1.08] font-medium tracking-tighter text-foreground sm:text-[34px]"
               >
                 {block.text}
               </h2>
@@ -141,7 +149,7 @@ export function DocBody({ body }: { body: string }) {
             return (
               <h3
                 key={i}
-                className="mt-8 mb-1 text-lg font-medium tracking-tight text-foreground"
+                className="mt-10 mb-2 text-xl leading-[1.15] font-medium tracking-tighter text-foreground sm:text-2xl"
               >
                 {block.text}
               </h3>
@@ -150,7 +158,7 @@ export function DocBody({ body }: { body: string }) {
             return (
               <aside
                 key={i}
-                className="mt-6 rounded-lg border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950 dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-100"
+                className="mt-8 rounded-lg border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950 dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-100"
               >
                 <span className="mr-1 font-medium">Draft note:</span>
                 <Inline text={block.text} />
@@ -160,7 +168,7 @@ export function DocBody({ body }: { body: string }) {
             return (
               <ul
                 key={i}
-                className="mt-4 list-disc space-y-2 pl-6 marker:text-muted-foreground"
+                className="mt-5 list-disc space-y-2.5 pl-6 marker:text-muted-foreground"
               >
                 {block.items.map((item, j) => (
                   <li key={j}>
@@ -169,15 +177,26 @@ export function DocBody({ body }: { body: string }) {
                 ))}
               </ul>
             );
+          case "strip":
+            return <PicStrip key={i} count={block.count} />;
+          case "pic":
+            return (
+              <div
+                key={i}
+                aria-hidden
+                className="my-10 aspect-[16/10] w-full rounded-2xl border border-border bg-muted sm:my-12"
+              />
+            );
           case "cta":
             return (
-              <div key={i} className="mt-8 flex flex-wrap items-center gap-3">
+              <div key={i} className="mt-10 flex flex-wrap items-center gap-3">
                 {block.items.map((cta) => (
                   <Button
                     key={cta.label}
                     asChild
                     size="lg"
                     variant={cta.secondary ? "outline" : "default"}
+                    className="h-auto min-h-10 max-w-full py-2.5 text-center whitespace-normal"
                   >
                     {cta.href.startsWith("http") ? (
                       <a href={cta.href}>{cta.label}</a>
@@ -190,7 +209,7 @@ export function DocBody({ body }: { body: string }) {
             );
           default:
             return (
-              <p key={i} className="mt-4">
+              <p key={i} className="mt-5">
                 <Inline text={block.text} />
               </p>
             );
