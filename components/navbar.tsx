@@ -10,10 +10,11 @@ import { StackraLogo } from "@/components/stackra-logo";
 import { APP_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
+// "/#id" so the links also work from the footer pages.
 const links = [
-  { name: "How it works", href: "#how-it-works" },
-  { name: "Customers", href: "#customers" },
-  { name: "Testimonials", href: "#testimonials" },
+  { name: "How it works", href: "/#how-it-works" },
+  { name: "Customers", href: "/#customers" },
+  { name: "Testimonials", href: "/#testimonials" },
 ];
 
 export default function NavBar() {
