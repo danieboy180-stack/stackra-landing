@@ -1,6 +1,7 @@
 import { APP_URL, STORE_URL } from "@/lib/site";
 import type { DocPageData } from "./types";
 
+// "@strip N" = scrolling row of N empty picture slots, "@pic" = one empty picture slot.
 export const product: DocPageData[] = [
   {
     slug: "how-it-works",
@@ -14,6 +15,8 @@ export const product: DocPageData[] = [
     body: `
 Stackra helps merchants bring their offerings online through shareable storefronts. Instead of relying entirely on individual product links or scattered conversations, you can bring your offerings together in one place and give customers a clearer way to discover your business.
 
+@strip 8
+
 Whether you're selling fashion, beauty products, food, accessories, or other offerings, Stackra gives you a place to present your business online.
 
 @primary Get Started | /get-started
@@ -24,6 +27,8 @@ Start by setting up your business on Stackra. Add your business name and the inf
 
 Your storefront should accurately represent your business. Use genuine business information and make sure your contact details are correct.
 
+@pic
+
 ## 02. Add your offerings
 
 Bring your products or other offerings together in your storefront.
@@ -31,6 +36,8 @@ Bring your products or other offerings together in your storefront.
 Use clear descriptions, accurate prices where applicable, and relevant images to help customers understand what you're offering. Keep your listings updated when prices, availability, or other important details change.
 
 The clearer your information, the easier it is for potential customers to make informed decisions.
+
+@pic
 
 ## 03. Give customers a place to explore
 
@@ -40,6 +47,8 @@ Rather than sending a separate link for every product, you can direct customers 
 
 Customers can then review the information you've provided and use the contact or ordering options available on your store.
 
+@pic
+
 ## 04. Share your storefront
 
 Bring your storefront into the conversations where you already reach customers.
@@ -47,6 +56,8 @@ Bring your storefront into the conversations where you already reach customers.
 Share your link through WhatsApp, Instagram, social media, or other channels you use to communicate with your audience.
 
 Your storefront gives interested customers another way to discover what you sell, even when they first encounter your business through a message or social post.
+
+@pic
 
 ## 05. Keep your business information current
 
@@ -56,6 +67,8 @@ Update inaccurate descriptions, remove unavailable offerings when appropriate, a
 
 A useful storefront is not just about looking good. It should help customers understand what is available and how to take the next step.
 
+@pic
+
 ## Built for the way merchants connect with customers
 
 Many merchants already build relationships through conversations, personal recommendations, messaging apps, and social media.
@@ -64,7 +77,7 @@ Stackra is designed to complement those existing channels by giving merchants a 
 
 You can continue using the channels that make sense for your business while giving customers a more organized way to explore what you offer.
 
-## What Stackra does—and what it doesn't promise
+## What Stackra does and what it doesn't promise
 
 Stackra provides tools for presenting your business and its offerings online.
 
@@ -178,6 +191,8 @@ A merchant's experience with Stackra may depend on their products, pricing, audi
 An individual result should not be interpreted as a guarantee that every merchant will achieve the same outcome.
 
 We will not present invented customer quotations, fabricated success stories, or unsupported performance figures as evidence of Stackra's effectiveness.
+
+@strip 5
 
 ## Sharing your experience
 
