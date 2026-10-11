@@ -1,8 +1,8 @@
 import Hero from "@/components/hero";
 import Customers from "@/components/customers";
 import Partners from "@/components/partners";
-import Stats from "@/components/stats";
 import Testimonials from "@/components/testimonials";
+import BrowseToOrder from "@/components/browse-to-order";
 import HowItWorks from "@/components/how-it-works";
 import Faq from "@/components/faq";
 import Footer from "@/components/footer";
@@ -23,7 +23,7 @@ export default function Home() {
           <Testimonials />
         </div>
         <div className="border-t border-border">
-          <Stats />
+          <BrowseToOrder />
         </div>
         <div className="border-t border-border">
           <HowItWorks />
