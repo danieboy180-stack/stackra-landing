@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import Image from "next/image";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -11,16 +12,52 @@ const sentences = [
   "Start selling.",
 ];
 
-// Empty placeholder cards (no pictures yet). The first four follow the sentences
-// above, the rest keep the strip filled. Mixed portrait/landscape like shopify.com.
+// Strip cards. The photos live in /public/hero (upload the five originals there with
+// these names). While a file is missing its card simply stays an empty placeholder.
+// "tall" and "wide" are both portrait-friendly so the product shots are not cut up.
 const cards = [
-  "portrait",
-  "landscape",
-  "portrait",
-  "landscape",
-  "portrait",
-  "landscape",
+  { src: "/hero/IMG-20261001-WA0112.jpg", shape: "tall", position: "45% 40%" },
+  { src: "/hero/IMG-20260828-WA0007.jpg", shape: "wide", position: "40% 55%" },
+  { src: "/hero/IMG-20260827-WA0091.jpg", shape: "tall", position: "50% 50%" },
+  { src: "/hero/IMG-20261001-WA0052.jpg", shape: "wide", position: "50% 45%" },
+  { src: "/hero/IMG-20261001-WA0133.jpg", shape: "tall", position: "55% 40%" },
 ] as const;
+
+function HeroCard({
+  src,
+  shape,
+  position,
+  eager,
+}: {
+  src: string;
+  shape: "tall" | "wide";
+  position: string;
+  eager: boolean;
+}) {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <div
+      className={cn(
+        "relative h-[240px] shrink-0 overflow-hidden rounded-2xl border border-border bg-muted sm:h-[340px] lg:h-[460px]",
+        shape === "tall" ? "aspect-[5/8]" : "aspect-[4/5]"
+      )}
+    >
+      {!failed && (
+        <Image
+          src={src}
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 370px, (min-width: 640px) 275px, 195px"
+          loading={eager ? "eager" : "lazy"}
+          onError={() => setFailed(true)}
+          className="object-cover"
+          style={{ objectPosition: position }}
+        />
+      )}
+    </div>
+  );
+}
 
 function Strip({ active }: { active: number }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -48,14 +85,8 @@ function Strip({ active }: { active: number }) {
         style={{ transform: `translate3d(${x}px, 0, 0)` }}
         className="relative flex w-max gap-3 pr-4 pl-[max(1rem,calc((100%_-_80rem)/2_+_1rem))] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none sm:gap-4 sm:pl-[max(1.5rem,calc((100%_-_80rem)/2_+_1.5rem))] lg:pl-[max(2rem,calc((100%_-_80rem)/2_+_2rem))]"
       >
-        {cards.map((shape, i) => (
-          <div
-            key={i}
-            className={cn(
-              "h-[240px] shrink-0 rounded-2xl border border-border bg-muted sm:h-[340px] lg:h-[460px]",
-              shape === "portrait" ? "aspect-[137/241]" : "aspect-[740/464]"
-            )}
-          />
+        {cards.map((card, i) => (
+          <HeroCard key={card.src} {...card} eager={i < 2} />
         ))}
       </div>
     </div>
