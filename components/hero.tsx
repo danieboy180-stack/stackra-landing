@@ -12,27 +12,30 @@ const sentences = [
   "Start selling.",
 ];
 
-// Strip cards. The photos live in /public/hero (upload the five originals there with
-// these names). While a file is missing its card simply stays an empty placeholder.
-// "tall" and "wide" are both portrait-friendly so the product shots are not cut up.
+// Strip cards, in order. Files live in /public/hero. "tall" and "wide" are both
+// portrait-friendly; `position` is the crop focus (object-position) for that photo.
+// A card whose file is missing simply stays an empty placeholder.
 const cards = [
-  { src: "/hero/IMG-20261001-WA0112.jpg", shape: "tall", position: "45% 40%" },
-  { src: "/hero/IMG-20260828-WA0007.jpg", shape: "wide", position: "40% 55%" },
-  { src: "/hero/IMG-20260827-WA0091.jpg", shape: "tall", position: "50% 50%" },
-  { src: "/hero/IMG-20261001-WA0052.jpg", shape: "wide", position: "50% 45%" },
-  { src: "/hero/IMG-20261001-WA0133.jpg", shape: "tall", position: "55% 40%" },
+  { src: "/hero/IMG-20260824-WA0009.jpg", shape: "tall", position: "50% 50%" }, // pink lip gloss
+  { src: "/hero/IMG-20260827-WA0094.jpg", shape: "wide", position: "50% 50%" }, // blue crochet bow
+  { src: "/hero/IMG-20261001-WA0117.jpg", shape: "tall", position: "50% 45%" }, // green dress
+  { src: "/hero/IMG-20260828-WA0007.jpg", shape: "wide", position: "40% 50%" }, // chain with cross
+  { src: "/hero/IMG-20260903-WA0056.jpg", shape: "tall", position: "50% 50%" }, // sweets
+  { src: "/hero/IMG-20260827-WA0111.jpg", shape: "wide", position: "50% 70%" }, // crochet AirPods case
+  { src: "/hero/IMG-20261001-WA0114.jpg", shape: "tall", position: "50% 75%" }, // brown dress
+  { src: "/hero/IMG-20260827-WA0115.jpg", shape: "wide", position: "50% 50%" }, // spider beanie
+  { src: "/hero/IMG-20261001-WA0133.jpg", shape: "tall", position: "55% 40%" }, // striped bodysuit
+  { src: "/hero/IMG-20260907-WA0066.jpg", shape: "wide", position: "50% 100%" }, // polo shirts
 ] as const;
 
 function HeroCard({
   src,
   shape,
   position,
-  eager,
 }: {
   src: string;
   shape: "tall" | "wide";
   position: string;
-  eager: boolean;
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -49,7 +52,7 @@ function HeroCard({
           alt=""
           fill
           sizes="(min-width: 1024px) 370px, (min-width: 640px) 275px, 195px"
-          loading={eager ? "eager" : "lazy"}
+          loading="eager"
           onError={() => setFailed(true)}
           className="object-cover"
           style={{ objectPosition: position }}
@@ -60,33 +63,38 @@ function HeroCard({
 }
 
 function Strip({ active }: { active: number }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [x, setX] = useState(0);
 
-  // Slide so the active card sits near the left edge with a peek of the previous one.
+  // Each sentence moves the strip to a new stretch of cards, so every photo gets a turn.
+  const target = Math.floor((active * cards.length) / sentences.length);
+
   useEffect(() => {
     const update = () => {
-      const card = trackRef.current?.children[active] as
-        | HTMLElement
-        | undefined;
-      if (!card) return;
+      const wrap = wrapRef.current;
+      const track = trackRef.current;
+      const card = track?.children[target] as HTMLElement | undefined;
+      if (!wrap || !track || !card) return;
       const peek = window.innerWidth < 640 ? 44 : 96;
-      setX(active === 0 ? 0 : peek - card.offsetLeft);
+      // never slide past the last card (no empty gap on the right)
+      const minX = Math.min(0, wrap.clientWidth - track.offsetWidth);
+      setX(target === 0 ? 0 : Math.max(minX, peek - card.offsetLeft));
     };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, [active]);
+  }, [target]);
 
   return (
-    <div className="overflow-hidden">
+    <div ref={wrapRef} className="overflow-hidden">
       <div
         ref={trackRef}
         style={{ transform: `translate3d(${x}px, 0, 0)` }}
-        className="relative flex w-max gap-3 pr-4 pl-[max(1rem,calc((100%_-_80rem)/2_+_1rem))] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none sm:gap-4 sm:pl-[max(1.5rem,calc((100%_-_80rem)/2_+_1.5rem))] lg:pl-[max(2rem,calc((100%_-_80rem)/2_+_2rem))]"
+        className="relative flex w-max gap-3 pr-4 pl-[max(1rem,calc((100%_-_80rem)/2_+_1rem))] transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none sm:gap-4 sm:pl-[max(1.5rem,calc((100%_-_80rem)/2_+_1.5rem))] lg:pl-[max(2rem,calc((100%_-_80rem)/2_+_2rem))]"
       >
-        {cards.map((card, i) => (
-          <HeroCard key={card.src} {...card} eager={i < 2} />
+        {cards.map((card) => (
+          <HeroCard key={card.src} {...card} />
         ))}
       </div>
     </div>
