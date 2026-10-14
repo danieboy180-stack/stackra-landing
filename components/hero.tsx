@@ -16,7 +16,7 @@ const sentences = [
 // portrait-friendly; `position` is the crop focus (object-position) for that photo.
 // A card whose file is missing simply stays an empty placeholder.
 const cards = [
-  { src: "/hero/IMG-20260824-WA0009.jpg", shape: "tall", position: "50% 50%" }, // pink lip gloss
+  { src: "/hero/IMG-20260905-WA0071.jpg", shape: "wide", position: "50% 50%" }, // brown monogram handbag
   { src: "/hero/IMG-20260827-WA0094.jpg", shape: "wide", position: "50% 50%" }, // blue crochet bow
   { src: "/hero/IMG-20261001-WA0117.jpg", shape: "tall", position: "50% 45%" }, // green dress
   { src: "/hero/IMG-20260828-WA0007.jpg", shape: "wide", position: "40% 50%" }, // chain with cross

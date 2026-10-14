@@ -1,24 +1,44 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // Floating tiles, placed as % of the scene (laid out like the reference graphic).
-// Every picture is an empty placeholder for now.
+// Photos live in /public/storefront. `position` is the crop focus (object-position).
+// A tile whose file is missing simply stays an empty placeholder.
+// The big card and the pill under it stay empty on purpose.
 const tiles = [
-  { x: 13.3, y: 15.4, s: 10.1 },
-  { x: 32.8, y: 20.8, s: 10.3 },
-  { x: 51.1, y: 12.5, s: 10.7 },
-  { x: 80.7, y: 17.1, s: 10.1 },
-  { x: 64.0, y: 23.9, s: 10.3 },
-  { x: 5.0, y: 35.9, s: 10.1 },
-  { x: 13.4, y: 53.9, s: 10.1 },
-  { x: 78.6, y: 45.4, s: 10.1 },
-  { x: 5.0, y: 73.7, s: 10.1 },
-  { x: 31.3, y: 76.9, s: 10.2 },
-  { x: 55.3, y: 70.7, s: 10.2 },
-  { x: 75.5, y: 76.3, s: 10.2 },
+  { x: 13.3, y: 15.4, s: 10.1, src: "/storefront/IMG-20260821-WA0232.jpg", position: "40% 65%" }, // star rings
+  { x: 32.8, y: 20.8, s: 10.3, src: "/storefront/IMG-20260903-WA0062.jpg", position: "50% 55%" }, // pink sweets
+  { x: 51.1, y: 12.5, s: 10.7, src: "/storefront/IMG-20260827-WA0159_1_.jpg", position: "45% 45%" }, // watch in box
+  { x: 80.7, y: 17.1, s: 10.1, src: "/storefront/IMG-20260819-WA0128.jpg", position: "50% 50%" }, // glass bottles
+  { x: 64.0, y: 23.9, s: 10.3, src: "/storefront/IMG-20260817-WA0070.jpg", position: "45% 55%" }, // earrings
+  { x: 5.0, y: 35.9, s: 10.1, src: "/storefront/IMG-20260914-WA0040.jpg", position: "35% 60%" }, // loafers
+  { x: 13.4, y: 53.9, s: 10.1, src: "/storefront/IMG-20260827-WA0091.jpg", position: "50% 55%" }, // crochet bag
+  { x: 78.6, y: 45.4, s: 10.1, src: "/storefront/IMG-20260907-WA0036.jpg", position: "50% 30%" }, // red hoodie
+  { x: 5.0, y: 73.7, s: 10.1, src: "/storefront/IMG-20260905-WA0089.jpg", position: "25% 40%" }, // bodysuit
+  { x: 31.3, y: 76.9, s: 10.2, src: "/storefront/IMG-20260907-WA0008.jpg", position: "50% 60%" }, // black flats
+  { x: 55.3, y: 70.7, s: 10.2, src: "/storefront/IMG-20260903-WA0057.jpg", position: "45% 50%" }, // brown sweets
+  { x: 75.5, y: 76.3, s: 10.2, src: "/storefront/IMG-20260817-WA0061.jpg", position: "50% 45%" }, // gold ring
 ];
+
+function TilePhoto({ src, position }: { src: string; position: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  return (
+    <Image
+      src={src}
+      alt=""
+      fill
+      sizes="(min-width: 1024px) 90px, 14vw"
+      onError={() => setFailed(true)}
+      className="object-cover"
+      style={{ objectPosition: position }}
+    />
+  );
+}
 
 export default function BrowseToOrder() {
   const reduceMotion = useReducedMotion();
@@ -67,10 +87,12 @@ export default function BrowseToOrder() {
                       delay: (i % 5) * 0.5,
                     }}
                     className={cn(
-                      "aspect-square w-full rounded-[22%] border border-border",
+                      "relative aspect-square w-full overflow-hidden rounded-[22%] border border-border",
                       i % 2 ? "bg-muted/50" : "bg-muted"
                     )}
-                  />
+                  >
+                    <TilePhoto src={t.src} position={t.position} />
+                  </motion.div>
                 </motion.div>
               ))}
 
