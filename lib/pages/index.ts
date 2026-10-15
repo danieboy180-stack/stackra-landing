@@ -2,6 +2,7 @@ import { company } from "./company";
 import { privacy } from "./privacy";
 import { product } from "./product";
 import { start } from "./start";
+import { terms } from "./terms";
 import type { DocPageData } from "./types";
 
 export type { DocPageData };
@@ -15,6 +16,7 @@ export const pages: DocPageData[] = [
   ...start,
   ...company,
   ...privacy,
+  ...terms,
 ];
 
 export const getPage = (slug: string) => pages.find((p) => p.slug === slug);

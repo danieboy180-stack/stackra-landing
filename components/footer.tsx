@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { InstagramLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
@@ -26,6 +26,53 @@ const socials = [
   { name: "Instagram", href: "#", Icon: InstagramLogoIcon },
 ];
 
+// Regulator logos under the social icons. Files live in /public/regulators and
+// are tried as .svg, then .png, then .webp. A logo whose file is missing is skipped.
+const regulators = [
+  {
+    file: "ndpc",
+    name: "Nigeria Data Protection Commission",
+    href: "https://www.ndpc.gov.ng/ndp-act-2023/",
+  },
+  {
+    file: "fccpc",
+    name: "Federal Competition and Consumer Protection Commission",
+    href: "https://fccpc.gov.ng/resources-library/fccpa/",
+  },
+];
+
+const extensions = ["svg", "png", "webp"];
+
+function RegulatorLogo({
+  file,
+  name,
+  href,
+}: {
+  file: string;
+  name: string;
+  href: string;
+}) {
+  const [ext, setExt] = useState(0);
+  if (ext >= extensions.length) return null;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={name}
+      className="transition-opacity hover:opacity-80"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/regulators/${file}.${extensions[ext]}`}
+        alt={name}
+        onError={() => setExt((e) => e + 1)}
+        className="h-10 w-auto sm:h-12"
+      />
+    </a>
+  );
+}
+
 // Every link opens a page from lib/pages. A column title with an href is a link too.
 const columns = [
   {
@@ -50,6 +97,7 @@ const columns = [
       { name: "About", href: "/about" },
       { name: "Contact", href: "/contact" },
       { name: "Privacy", href: "/privacy" },
+      { name: "Terms", href: "/terms" },
     ],
   },
 ];
@@ -100,6 +148,11 @@ export default function Footer() {
                 >
                   <Icon className="size-[18px]" />
                 </a>
+              ))}
+            </div>
+            <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-6">
+              {regulators.map((r) => (
+                <RegulatorLogo key={r.file} {...r} />
               ))}
             </div>
           </div>

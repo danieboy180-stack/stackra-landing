@@ -7,7 +7,7 @@ type Cta = { label: string; href: string; secondary: boolean };
 
 type Block =
   | { t: "h2" | "h3" | "p" | "note"; text: string }
-  | { t: "ul"; items: string[] }
+  | { t: "ul" | "ol"; items: string[] }
   | { t: "cta"; items: Cta[] }
   | { t: "strip"; count: number }
   | { t: "pic" };
@@ -38,6 +38,13 @@ function parse(src: string): Block[] {
       }
       if (first.startsWith("- ")) {
         return { t: "ul", items: lines.map((l) => l.replace(/^-\s+/, "")) };
+      }
+      // Numbered list: every line starts with "1. ", "2. ", ...
+      if (/^\d+\.\s/.test(first)) {
+        return {
+          t: "ol",
+          items: lines.map((l) => l.replace(/^\d+\.\s+/, "")),
+        };
       }
       if (first.startsWith("@strip")) {
         return { t: "strip", count: Number(first.split(/\s+/)[1]) || 6 };
@@ -176,6 +183,19 @@ export function DocBody({ body }: { body: string }) {
                   </li>
                 ))}
               </ul>
+            );
+          case "ol":
+            return (
+              <ol
+                key={i}
+                className="mt-5 list-decimal space-y-2.5 pl-7 marker:text-muted-foreground"
+              >
+                {block.items.map((item, j) => (
+                  <li key={j}>
+                    <Inline text={item} />
+                  </li>
+                ))}
+              </ol>
             );
           case "strip":
             return <PicStrip key={i} count={block.count} />;
