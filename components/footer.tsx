@@ -34,6 +34,7 @@ const regulators = [
     name: "Nigeria Data Protection Commission",
     href: "https://www.ndpc.gov.ng/ndp-act-2023/",
     srcs: [
+      "/regulators/NDPC-copped.png",
       "/regulators/ndpc.svg",
       "/regulators/ndpc.png",
       "/regulators/ndpc.webp",
@@ -63,6 +64,7 @@ function RegulatorLogo({
   if (i >= srcs.length) return null;
 
   // mix-blend-multiply makes a white image background vanish on the light theme.
+  // On the dark theme the logo gets a small white tile so it stays readable.
   const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -72,7 +74,7 @@ function RegulatorLogo({
       className={
         cropped
           ? "size-full object-cover object-[50%_30%] mix-blend-multiply dark:rounded-md dark:mix-blend-normal"
-          : "h-10 w-auto mix-blend-multiply sm:h-12 dark:mix-blend-normal"
+          : "h-12 w-auto mix-blend-multiply sm:h-16 dark:rounded-md dark:bg-white dark:p-1.5 dark:mix-blend-normal"
       }
     />
   );
