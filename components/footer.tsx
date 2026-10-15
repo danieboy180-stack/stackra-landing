@@ -26,49 +26,70 @@ const socials = [
   { name: "Instagram", href: "#", Icon: InstagramLogoIcon },
 ];
 
-// Regulator logos under the social icons. Files live in /public/regulators and
-// are tried as .svg, then .png, then .webp. A logo whose file is missing is skipped.
+// Regulator logos under the social icons. Files live in /public/regulators.
+// `srcs` are tried in order; a logo with no file that loads is left out.
+// `cropped` trims the empty white margin of a square image around the logo.
 const regulators = [
   {
-    file: "ndpc",
     name: "Nigeria Data Protection Commission",
     href: "https://www.ndpc.gov.ng/ndp-act-2023/",
+    srcs: [
+      "/regulators/ndpc.svg",
+      "/regulators/ndpc.png",
+      "/regulators/ndpc.webp",
+    ],
+    cropped: false,
   },
   {
-    file: "fccpc",
     name: "Federal Competition and Consumer Protection Commission",
     href: "https://fccpc.gov.ng/resources-library/fccpa/",
+    srcs: ["/regulators/icon%20(1).jpeg"],
+    cropped: true,
   },
 ];
 
-const extensions = ["svg", "png", "webp"];
-
 function RegulatorLogo({
-  file,
   name,
   href,
+  srcs,
+  cropped,
 }: {
-  file: string;
   name: string;
   href: string;
+  srcs: string[];
+  cropped: boolean;
 }) {
-  const [ext, setExt] = useState(0);
-  if (ext >= extensions.length) return null;
+  const [i, setI] = useState(0);
+  if (i >= srcs.length) return null;
+
+  // mix-blend-multiply makes a white image background vanish on the light theme.
+  const img = (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={srcs[i]}
+      alt={name}
+      onError={() => setI((n) => n + 1)}
+      className={
+        cropped
+          ? "size-full object-cover object-[50%_30%] mix-blend-multiply dark:rounded-md dark:mix-blend-normal"
+          : "h-10 w-auto mix-blend-multiply sm:h-12 dark:mix-blend-normal"
+      }
+    />
+  );
+
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={name}
-      className="transition-opacity hover:opacity-80"
+      className="block transition-opacity hover:opacity-80"
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`/regulators/${file}.${extensions[ext]}`}
-        alt={name}
-        onError={() => setExt((e) => e + 1)}
-        className="h-10 w-auto sm:h-12"
-      />
+      {cropped ? (
+        <div className="aspect-[16/10] h-20 overflow-hidden sm:h-24">{img}</div>
+      ) : (
+        img
+      )}
     </a>
   );
 }
@@ -152,7 +173,7 @@ export default function Footer() {
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-6">
               {regulators.map((r) => (
-                <RegulatorLogo key={r.file} {...r} />
+                <RegulatorLogo key={r.name} {...r} />
               ))}
             </div>
           </div>
