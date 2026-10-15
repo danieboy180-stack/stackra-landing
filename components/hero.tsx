@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const sentences = [
@@ -12,31 +12,44 @@ const sentences = [
   "Start selling.",
 ];
 
-// Strip cards, in order. Files live in /public/hero. "tall" and "wide" are both
-// portrait-friendly; `position` is the crop focus (object-position) for that photo.
-// A card whose file is missing simply stays an empty placeholder.
-const cards = [
-  { src: "/hero/IMG-20260905-WA0071.jpg", shape: "wide", position: "50% 50%" }, // brown monogram handbag
-  { src: "/hero/IMG-20260827-WA0094.jpg", shape: "wide", position: "50% 50%" }, // blue crochet bow
-  { src: "/hero/IMG-20261001-WA0117.jpg", shape: "tall", position: "50% 45%" }, // green dress
-  { src: "/hero/IMG-20260828-WA0007.jpg", shape: "wide", position: "40% 50%" }, // chain with cross
-  { src: "/hero/IMG-20260903-WA0056.jpg", shape: "tall", position: "50% 50%" }, // sweets
-  { src: "/hero/IMG-20260827-WA0111.jpg", shape: "wide", position: "50% 70%" }, // crochet AirPods case
-  { src: "/hero/IMG-20261001-WA0114.jpg", shape: "tall", position: "50% 75%" }, // brown dress
-  { src: "/hero/IMG-20260827-WA0115.jpg", shape: "wide", position: "50% 50%" }, // spider beanie
-  { src: "/hero/IMG-20261001-WA0133.jpg", shape: "tall", position: "55% 40%" }, // striped bodysuit
-  { src: "/hero/IMG-20260907-WA0066.jpg", shape: "wide", position: "50% 100%" }, // polo shirts
-] as const;
+// Every photo in /public/hero, in strip order. To add one: upload it to that
+// folder and add its filename here. Shapes alternate by position (see below).
+const photos = [
+  "IMG-20260827-WA0094.jpg",
+  "IMG-20261001-WA0117.jpg",
+  "IMG-20260828-WA0007.jpg",
+  "IMG-20260903-WA0056.jpg",
+  "IMG-20260827-WA0111.jpg",
+  "IMG-20261001-WA0114.jpg",
+  "IMG-20260827-WA0115.jpg",
+  "IMG-20261001-WA0133.jpg",
+  "IMG-20260907-WA0066.jpg",
+  "IMG-20260824-WA0009.jpg",
+  "IMG-20260929-WA0038.jpg",
+  "IMG-20260929-WA0047.jpg",
+  "IMG-20261001-WA0011.jpg",
+  "IMG-20261009-WA0055.jpg",
+  "IMG-20261009-WA0057.jpg",
+  "IMG-20261009-WA0060.jpg",
+  "IMG-20261010-WA0008.jpg",
+  "IMG-20261010-WA0065.jpg",
+];
+
+const shapes = ["wide", "tall", "wide", "wide", "tall", "wide", "tall"] as const;
+
+// Seconds the strip takes to travel past one photo (higher = slower).
+const SECONDS_PER_PHOTO = 6;
 
 function HeroCard({
-  src,
+  file,
   shape,
-  position,
+  priority,
 }: {
-  src: string;
+  file: string;
   shape: "tall" | "wide";
-  position: string;
+  priority: boolean;
 }) {
+  const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
 
   return (
@@ -48,55 +61,76 @@ function HeroCard({
     >
       {!failed && (
         <Image
-          src={src}
+          src={`/hero/${file}`}
           alt=""
           fill
           sizes="(min-width: 1024px) 370px, (min-width: 640px) 275px, 195px"
+          priority={priority}
           loading="eager"
+          draggable={false}
+          onLoad={() => setLoaded(true)}
           onError={() => setFailed(true)}
-          className="object-cover"
-          style={{ objectPosition: position }}
+          className={cn(
+            "object-cover transition-opacity duration-700 ease-out",
+            loaded ? "opacity-100" : "opacity-0"
+          )}
+          style={{ objectPosition: "50% 45%" }}
         />
       )}
     </div>
   );
 }
 
-function Strip({ active }: { active: number }) {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [x, setX] = useState(0);
+function Group({ hidden }: { hidden?: boolean }) {
+  return (
+    <div
+      aria-hidden={hidden || undefined}
+      className="flex shrink-0 gap-3 pr-3 sm:gap-4 sm:pr-4"
+    >
+      {photos.map((file, i) => (
+        <HeroCard
+          key={file}
+          file={file}
+          shape={shapes[i % shapes.length]}
+          priority={!hidden && i < 3}
+        />
+      ))}
+    </div>
+  );
+}
 
-  // Each sentence moves the strip to a new stretch of cards, so every photo gets a turn.
-  const target = Math.floor((active * cards.length) / sentences.length);
+// Endless, constant-speed strip. Two identical groups side by side, moved by
+// exactly half the track so the loop has no seam. It runs on its own and is not
+// tied to the headline highlight.
+function Strip() {
+  const reduceMotion = useReducedMotion();
 
-  useEffect(() => {
-    const update = () => {
-      const wrap = wrapRef.current;
-      const track = trackRef.current;
-      const card = track?.children[target] as HTMLElement | undefined;
-      if (!wrap || !track || !card) return;
-      const peek = window.innerWidth < 640 ? 44 : 96;
-      // never slide past the last card (no empty gap on the right)
-      const minX = Math.min(0, wrap.clientWidth - track.offsetWidth);
-      setX(target === 0 ? 0 : Math.max(minX, peek - card.offsetLeft));
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [target]);
+  if (reduceMotion) {
+    return (
+      <div className="overflow-x-auto">
+        <div className="w-max pl-4 sm:pl-6 lg:pl-8">
+          <Group />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div ref={wrapRef} className="overflow-hidden">
-      <div
-        ref={trackRef}
-        style={{ transform: `translate3d(${x}px, 0, 0)` }}
-        className="relative flex w-max gap-3 pr-4 pl-[max(1rem,calc((100%_-_80rem)/2_+_1rem))] transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none sm:gap-4 sm:pl-[max(1.5rem,calc((100%_-_80rem)/2_+_1.5rem))] lg:pl-[max(2rem,calc((100%_-_80rem)/2_+_2rem))]"
+    <div className="overflow-hidden">
+      <motion.div
+        initial={{ x: "0%" }}
+        animate={{ x: "-50%" }}
+        transition={{
+          duration: photos.length * SECONDS_PER_PHOTO,
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "loop",
+        }}
+        className="ml-[max(1rem,calc((100%_-_80rem)/2_+_1rem))] flex w-max will-change-transform sm:ml-[max(1.5rem,calc((100%_-_80rem)/2_+_1.5rem))] lg:ml-[max(2rem,calc((100%_-_80rem)/2_+_2rem))]"
       >
-        {cards.map((card) => (
-          <HeroCard key={card.src} {...card} />
-        ))}
-      </div>
+        <Group />
+        <Group hidden />
+      </motion.div>
     </div>
   );
 }
@@ -116,13 +150,6 @@ export default function Hero() {
     return () => window.clearTimeout(id);
   }, [active, paused, reduceMotion]);
 
-  const onKey = (e: KeyboardEvent, i: number) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      setActive(i);
-    }
-  };
-
   return (
     <section
       className="pb-14 pt-8 sm:pb-20 sm:pt-14"
@@ -138,7 +165,12 @@ export default function Hero() {
                 tabIndex={0}
                 aria-pressed={i === active}
                 onClick={() => setActive(i)}
-                onKeyDown={(e) => onKey(e, i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActive(i);
+                  }
+                }}
                 className={cn(
                   "cursor-pointer rounded-sm outline-none transition-colors duration-500 focus-visible:ring-2 focus-visible:ring-ring/60",
                   i === active
@@ -154,7 +186,7 @@ export default function Hero() {
       </div>
 
       <div aria-hidden className="mt-10 sm:mt-14">
-        <Strip active={active} />
+        <Strip />
       </div>
     </section>
   );
