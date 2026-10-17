@@ -29,6 +29,7 @@ const socials = [
 // Regulator logos under the social icons. Files live in /public/regulators.
 // `srcs` are tried in order; a logo with no file that loads is left out.
 // `cropped` trims the empty white margin of a square image around the logo.
+// FCCPC is removed for now (its file, "icon (1).jpeg", is still in the folder).
 const regulators = [
   {
     name: "Nigeria Data Protection Commission",
@@ -40,12 +41,6 @@ const regulators = [
       "/regulators/ndpc.webp",
     ],
     cropped: false,
-  },
-  {
-    name: "Federal Competition and Consumer Protection Commission",
-    href: "https://fccpc.gov.ng/resources-library/fccpa/",
-    srcs: ["/regulators/icon%20(1).jpeg"],
-    cropped: true,
   },
 ];
 

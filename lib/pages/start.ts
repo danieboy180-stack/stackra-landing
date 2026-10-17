@@ -24,6 +24,8 @@ Create your business presence using the registration and setup options available
 
 Provide accurate information about your business and ensure that the details you publish are information you're authorized to use.
 
+@pic
+
 ## Step 2: Add your offerings
 
 Add the products or services you want customers to discover.
@@ -31,6 +33,8 @@ Add the products or services you want customers to discover.
 Where applicable, provide clear images, useful descriptions, accurate prices, and current availability information.
 
 Take time to review your listings before making them publicly available.
+
+@pic
 
 ## Step 3: Review your storefront
 
@@ -40,6 +44,8 @@ Make sure your business information is correct, your offerings are described acc
 
 Remove placeholders and correct mistakes before sharing your storefront with customers.
 
+@pic
+
 ## Step 4: Share your business
 
 When your storefront is ready, share its link through the channels you use to reach customers.
@@ -48,6 +54,8 @@ You can introduce your storefront to your existing audience through messaging ap
 
 Remember that creating a storefront is the beginning of your online presence, not a guarantee of customer traffic or sales.
 
+@pic
+
 ## Step 5: Keep improving
 
 As your business changes, keep your storefront current.
@@ -55,6 +63,8 @@ As your business changes, keep your storefront current.
 Review your offerings, update outdated information, and pay attention to the questions customers ask.
 
 Use what you learn to improve how you present your products and communicate with potential buyers.
+
+@pic
 
 ## Built around your business
 
