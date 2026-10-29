@@ -91,7 +91,7 @@ function RegulatorLogo({
   );
 }
 
-// Every link opens a page from lib/pages. A column title with an href is a link too.
+// Every link opens a page from lib/pages (Store opens the /store page). A column title with an href is a link too.
 const columns = [
   {
     title: "Product",
@@ -99,6 +99,7 @@ const columns = [
       { name: "How it works", href: "/how-it-works" },
       { name: "Customers", href: "/customers" },
       { name: "Testimonials", href: "/testimonials" },
+      { name: "Store", href: "/store" },
     ],
   },
   {
