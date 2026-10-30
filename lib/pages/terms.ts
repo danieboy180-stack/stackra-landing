@@ -290,7 +290,7 @@ If you voluntarily submit suggestions, ideas or feedback about Stackra, we may u
 
 ### 9.5 Copyright and other complaints
 
-If you believe content on a Stackra-powered storefront infringes your intellectual-property rights or violates applicable law, you may contact us at hello@stackra.dev.
+If you believe content on a Stackra-powered storefront infringes your intellectual-property rights or violates applicable law, you may contact us at reports@stackra.dev.
 
 Please provide enough information for us to identify the content, understand the complaint and contact you if clarification is necessary.
 
@@ -320,7 +320,7 @@ You must not use customer contact information obtained through Stackra for unsol
 
 You must also take reasonable steps to protect the personal information you access through your account.
 
-Questions or requests relating to personal information may be directed to hello@stackra.dev, subject to the specific procedures described in our Privacy Policy.
+Questions or requests relating to personal information may be directed to privacy@stackra.dev, subject to the specific procedures described in our Privacy Policy.
 
 Nothing in these Terms limits a person's rights under applicable data-protection law.
 
@@ -360,7 +360,7 @@ We will not rely on this section to remove rights that cannot lawfully be exclud
 
 You must take reasonable precautions to prevent unauthorised use of your account.
 
-If you believe that someone has accessed your account without permission, contact us promptly at hello@stackra.dev.
+If you believe that someone has accessed your account without permission, contact us promptly at reports@stackra.dev.
 
 We may temporarily restrict account access where reasonably necessary to investigate suspected fraud, respond to security threats, protect personal information, comply with law or prevent material harm to Stackra or other users.
 
@@ -384,7 +384,7 @@ We will not use suspension powers in a manner that unlawfully deprives a user of
 
 ### 14.1 Cancelling your use of Stackra
 
-You may stop using Stackra and request the closure of your account by contacting hello@stackra.dev or using any account-closure functionality made available to you.
+You may stop using Stackra and request the closure of your account by contacting support@stackra.dev or using any account-closure functionality made available to you.
 
 If you have purchased a paid plan, cancellation of the account and cancellation of a future renewal are distinct matters where a renewal arrangement applies.
 
@@ -418,7 +418,7 @@ You are responsible for keeping copies of important business information and rec
 
 Before closing your account or allowing a plan to expire, you should download or otherwise retain any information you wish to preserve using the export tools available to you.
 
-Where the platform does not provide a suitable self-service export, you may contact hello@stackra.dev to ask about the information that can reasonably be provided.
+Where the platform does not provide a suitable self-service export, you may contact support@stackra.dev to ask about the information that can reasonably be provided.
 
 We will consider reasonable export requests in light of the services provided, technical feasibility, security requirements and applicable law.
 
@@ -482,7 +482,7 @@ The parties acknowledge that the application of any liability limitation depends
 
 ## 19. Complaints and Dispute Resolution
 
-If you have a complaint concerning Stackra, please contact us at hello@stackra.dev.
+If you have a complaint concerning Stackra, please contact us at reports@stackra.dev.
 
 Please explain the issue, identify the account or service concerned where relevant, and provide any information reasonably necessary for us to investigate.
 
@@ -520,13 +520,15 @@ If you do not agree to a material change, you may discontinue the affected servi
 
 ## 22. Notices and Contact Information
 
-For questions about these Terms, account issues, complaints, cancellation requests, or legal notices, please contact:
+For questions about these Terms or legal notices, please contact:
 
 **Stackra**
 
 Email: hello@stackra.dev
 
 Website: https://stackra.dev
+
+For account issues and cancellation requests, contact support@stackra.dev. For complaints and reports, contact reports@stackra.dev. For privacy requests, contact privacy@stackra.dev.
 
 Formal notices may also be sent to Stackra's registered address identified at the beginning of these Terms, subject to any additional requirements under applicable law or a separate agreement.
 
