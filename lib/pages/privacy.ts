@@ -32,7 +32,7 @@ In this policy, "Stackra", "we", "us", and "our" refer to that operator.
 
 Business address or jurisdiction: [Insert verified details where required.]
 
-Privacy contact: [Insert official privacy email or designated privacy-request channel.]
+Privacy contact: privacy@stackra.dev
 
 This policy applies to the Stackra services identified below:
 
@@ -221,7 +221,7 @@ These rights are subject to the conditions and limitations established by applic
 
 To submit a request, contact:
 
-Privacy contact: [Insert official privacy email.]
+Privacy contact: privacy@stackra.dev
 
 Please explain the nature of your request without sending unnecessary sensitive information.
 
@@ -262,7 +262,7 @@ For questions about this Privacy Policy or requests concerning personal informat
 
 Operator: [Insert verified legal name.]
 
-Privacy email: [Insert official privacy contact.]
+Privacy email: privacy@stackra.dev
 
 Business jurisdiction: [Insert verified jurisdiction.]
 
