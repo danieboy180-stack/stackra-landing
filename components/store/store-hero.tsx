@@ -37,7 +37,7 @@ function StripCard({
     >
       {!failed && (
         <Image
-          src={`/hero/${file}`}
+          src={`/store/${file}`}
           alt=""
           fill
           sizes="(min-width: 1024px) 370px, (min-width: 640px) 275px, 195px"

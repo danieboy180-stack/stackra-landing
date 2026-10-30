@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Clock, MapPin, MessageCircle, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./reveal";
-import { storefrontPhotos } from "./photos";
+import { galleryPhotos } from "./photos";
 
 const callouts = [
   {
@@ -32,14 +32,14 @@ const callouts = [
 // Where each numbered badge sits on the phone, as % from its top.
 const badgeTops = ["3%", "16%", "31%", "56%", "94%"];
 
-const phoneProducts = [2, 7, 12, 17].map((i) => storefrontPhotos[i]);
-const coverPhoto = storefrontPhotos[9];
-const gallery = storefrontPhotos.slice(0, 24);
+const phoneProducts = [1, 6, 11, 16].map((i) => galleryPhotos[i]);
+const coverPhoto = galleryPhotos[20];
+const gallery = galleryPhotos;
 
 function Photo({ file, sizes }: { file: string; sizes: string }) {
   return (
     <Image
-      src={`/storefront/${file}`}
+      src={`/store/${file}`}
       alt=""
       fill
       sizes={sizes}
