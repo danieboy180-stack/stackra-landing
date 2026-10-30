@@ -80,7 +80,7 @@ Operating jurisdiction: [Insert verified jurisdiction.]
 
 Business registration details: [Include only if applicable and verified.]
 
-Contact: [Insert official contact email.]
+Contact: hello@stackra.dev
 
 > This information should be completed before publication where required or relevant to accurately identify the company responsible for the service.
 `,
@@ -103,7 +103,7 @@ Have a question about Stackra, the services we provide, or how the platform work
 
 Contact us through our official support channel.
 
-Email: [Insert verified official contact email.]
+Email: hello@stackra.dev
 
 ## Account and technical support
 
@@ -113,7 +113,7 @@ Include relevant non-sensitive details, such as the affected page, the approxima
 
 Never send your password, authentication codes, or other sensitive credentials through a support request.
 
-Support channel: [Insert verified support email or support page.]
+Support channel: support@stackra.dev
 
 ## Merchant and storefront enquiries
 
@@ -125,7 +125,7 @@ For questions about a particular merchant's products, pricing, availability, del
 
 If you have a question about how Stackra handles personal information, or would like to submit a privacy-related request, use the dedicated privacy contact below.
 
-Privacy contact: [Insert verified privacy email or designated privacy-request channel.]
+Privacy contact: privacy@stackra.dev
 
 Do not include more personal information than is necessary to explain your request.
 
@@ -137,13 +137,15 @@ Where possible, explain why you believe the information is inaccurate or the con
 
 > We will need a functioning process for reviewing reports and communicating the outcome where appropriate before making any promises about response times or resolution.
 
-Report channel: [Insert the verified reporting or support destination.]
+Report channel: reports@stackra.dev
 
 ## Business and partnership enquiries
 
 For legitimate partnership or business enquiries, contact:
 
-Business enquiries: [Insert official business contact email, if available.]
+Business enquiries: business@stackra.dev
+
+Partnerships and collaborations: partnerships@stackra.dev
 
 Please include a clear explanation of your proposal and the type of relationship you're considering.
 
@@ -161,11 +163,11 @@ We believe that clear communication is part of building a trustworthy service.
 
 Our contact information should remain current, requests should be directed to the appropriate channel, and problems should be handled according to established procedures.
 
-General enquiries: [Insert official email.]
+General enquiries: hello@stackra.dev
 
-Privacy requests: [Insert privacy email.]
+Privacy requests: privacy@stackra.dev
 
-Account support: [Insert support destination.]
+Account support: support@stackra.dev
 `,
   },
 ];
