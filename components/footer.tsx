@@ -114,8 +114,17 @@ const columns = [
     links: [
       { name: "About", href: "/about" },
       { name: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    title: "Legal",
+    href: "/legal",
+    links: [
       { name: "Privacy", href: "/privacy" },
       { name: "Terms", href: "/terms" },
+      { name: "Acceptable use", href: "/acceptable-use" },
+      { name: "Cookies", href: "/cookies" },
+      { name: "Subprocessors", href: "/subprocessors" },
     ],
   },
 ];
@@ -177,7 +186,7 @@ export default function Footer() {
 
           <nav
             aria-label="Footer"
-            className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:gap-x-24"
+            className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4 lg:gap-x-16"
           >
             {columns.map((col) => (
               <div key={col.title} className="flex flex-col gap-4">

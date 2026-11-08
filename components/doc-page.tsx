@@ -90,9 +90,16 @@ export default function DocPage({ page }: { page: DocPageData }) {
           <span className="text-foreground">{page.nav}</span>
         </nav>
 
-        <p className="text-sm font-medium text-muted-foreground">
-          {page.eyebrow}
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-sm font-medium text-muted-foreground">
+            {page.eyebrow}
+          </p>
+          {page.tag && (
+            <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground ring-1 ring-black/[0.06] dark:ring-white/10">
+              {page.tag}
+            </span>
+          )}
+        </div>
 
         {/* Same two-tone heading as the home hero (smaller): title in full contrast, intro dimmed. */}
         <div className="mt-3 text-[32px] leading-[1.05] font-medium tracking-tighter [font-family:var(--font-display)] sm:text-[40px] lg:text-5xl">
@@ -106,6 +113,24 @@ export default function DocPage({ page }: { page: DocPageData }) {
             </>
           )}
         </div>
+
+        {page.meta && page.meta.length > 0 && (
+          <dl
+            className={cn(
+              "mt-8 grid gap-px overflow-hidden rounded-2xl border border-border bg-border",
+              page.meta.length > 2 ? "sm:grid-cols-3" : "sm:grid-cols-2"
+            )}
+          >
+            {page.meta.map((m) => (
+              <div key={m.label} className="min-w-0 bg-background px-4 py-3">
+                <dt className="text-xs text-muted-foreground">{m.label}</dt>
+                <dd className="mt-0.5 text-sm font-medium break-words">
+                  <Inline text={m.value} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
         <div className="mt-10 border-t border-border pt-10 sm:mt-12 sm:pt-12">
           <DocBody body={page.body} />
