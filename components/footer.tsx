@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { InstagramLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
@@ -26,70 +26,8 @@ const socials = [
   { name: "Instagram", href: "#", Icon: InstagramLogoIcon },
 ];
 
-// Regulator logos under the social icons. Files live in /public/regulators.
-// `srcs` are tried in order; a logo with no file that loads is left out.
-// `cropped` trims the empty white margin of a square image around the logo.
-// FCCPC is removed for now (its file, "icon (1).jpeg", is still in the folder).
-const regulators = [
-  {
-    name: "Nigeria Data Protection Commission",
-    href: "https://www.ndpc.gov.ng/ndp-act-2023/",
-    srcs: [
-      "/regulators/NDPC-copped.png",
-      "/regulators/ndpc.svg",
-      "/regulators/ndpc.png",
-      "/regulators/ndpc.webp",
-    ],
-    cropped: false,
-  },
-];
-
-function RegulatorLogo({
-  name,
-  href,
-  srcs,
-  cropped,
-}: {
-  name: string;
-  href: string;
-  srcs: string[];
-  cropped: boolean;
-}) {
-  const [i, setI] = useState(0);
-  if (i >= srcs.length) return null;
-
-  // mix-blend-multiply makes a white image background vanish on the light theme.
-  // On the dark theme the logo gets a small white tile so it stays readable.
-  const img = (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={srcs[i]}
-      alt={name}
-      onError={() => setI((n) => n + 1)}
-      className={
-        cropped
-          ? "size-full object-cover object-[50%_30%] mix-blend-multiply dark:rounded-md dark:mix-blend-normal"
-          : "h-12 w-auto mix-blend-multiply sm:h-16 dark:rounded-md dark:bg-white dark:p-1.5 dark:mix-blend-normal"
-      }
-    />
-  );
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={name}
-      className="block transition-opacity hover:opacity-80"
-    >
-      {cropped ? (
-        <div className="aspect-[16/10] h-20 overflow-hidden sm:h-24">{img}</div>
-      ) : (
-        img
-      )}
-    </a>
-  );
-}
+// No regulator logos or registration badges are shown. Add one only after the
+// registration it stands for has been issued and verified.
 
 // Every link opens a page from lib/pages (Store opens the /store page). A column title with an href is a link too.
 const columns = [
@@ -117,6 +55,17 @@ const columns = [
       { name: "Contact", href: "/contact" },
       { name: "Privacy", href: "/privacy" },
       { name: "Terms", href: "/terms" },
+    ],
+  },
+  {
+    title: "Legal",
+    href: "/legal",
+    links: [
+      { name: "Website terms", href: "/website-terms" },
+      { name: "Merchant terms", href: "/merchant-terms" },
+      { name: "Customer terms", href: "/customer-terms" },
+      { name: "Data rights", href: "/data-rights" },
+      { name: "Security", href: "/security" },
     ],
   },
 ];
@@ -169,16 +118,11 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-            <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-6">
-              {regulators.map((r) => (
-                <RegulatorLogo key={r.name} {...r} />
-              ))}
-            </div>
           </div>
 
           <nav
             aria-label="Footer"
-            className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:gap-x-24"
+            className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4 lg:gap-x-16"
           >
             {columns.map((col) => (
               <div key={col.title} className="flex flex-col gap-4">
