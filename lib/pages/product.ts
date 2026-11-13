@@ -2,6 +2,7 @@ import { APP_URL, STORE_URL } from "@/lib/site";
 import type { DocPageData } from "./types";
 
 // "@strip N" = scrolling row of N empty picture slots, "@pic" = one empty picture slot.
+// Add "| folder" to fill a slot from /public/<folder> (see public/how-it-works/README.md).
 export const product: DocPageData[] = [
   {
     slug: "how-it-works",
@@ -15,7 +16,7 @@ export const product: DocPageData[] = [
     body: `
 Stackra helps merchants bring their offerings online through shareable storefronts. Instead of relying entirely on individual product links or scattered conversations, you can bring your offerings together in one place and give customers a clearer way to discover your business.
 
-@strip 8
+@strip 8 | how-it-works/strip
 
 Whether you're selling fashion, beauty products, food, accessories, or other offerings, Stackra gives you a place to present your business online.
 
@@ -27,7 +28,7 @@ Start by setting up your business on Stackra. Add your business name and the inf
 
 Your storefront should accurately represent your business. Use genuine business information and make sure your contact details are correct.
 
-@pic
+@pic | how-it-works/step-1
 
 ## 02. Add your offerings
 
@@ -37,7 +38,7 @@ Use clear descriptions, accurate prices where applicable, and relevant images to
 
 The clearer your information, the easier it is for potential customers to make informed decisions.
 
-@pic
+@pic | how-it-works/step-2
 
 ## 03. Give customers a place to explore
 
@@ -47,8 +48,6 @@ Rather than sending a separate link for every product, you can direct customers 
 
 Customers can then review the information you've provided and use the contact or ordering options available on your store.
 
-@pic
-
 ## 04. Share your storefront
 
 Bring your storefront into the conversations where you already reach customers.
@@ -57,7 +56,7 @@ Share your link through WhatsApp, Instagram, social media, or other channels you
 
 Your storefront gives interested customers another way to discover what you sell, even when they first encounter your business through a message or social post.
 
-@pic
+@pic | how-it-works/step-4
 
 ## 05. Keep your business information current
 
@@ -67,7 +66,7 @@ Update inaccurate descriptions, remove unavailable offerings when appropriate, a
 
 A useful storefront is not just about looking good. It should help customers understand what is available and how to take the next step.
 
-@pic
+@pic | how-it-works/step-5
 
 ## Built for the way merchants connect with customers
 

@@ -1,7 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import AutoPicStrip from "@/components/auto-pic-strip";
 import PicStrip from "@/components/pic-strip";
+import { listImages } from "@/lib/slot-media";
 
 type Cta = { label: string; href: string; secondary: boolean };
 
@@ -9,8 +12,8 @@ type Block =
   | { t: "h2" | "h3" | "p" | "note"; text: string }
   | { t: "ul" | "ol"; items: string[] }
   | { t: "cta"; items: Cta[] }
-  | { t: "strip"; count: number }
-  | { t: "pic" };
+  | { t: "strip"; count: number; dir?: string }
+  | { t: "pic"; dir?: string };
 
 export const slugify = (text: string) =>
   text
@@ -46,10 +49,16 @@ function parse(src: string): Block[] {
           items: lines.map((l) => l.replace(/^\d+\.\s+/, "")),
         };
       }
+      // "@strip 8" or "@strip 8 | folder" (folder is inside /public)
       if (first.startsWith("@strip")) {
-        return { t: "strip", count: Number(first.split(/\s+/)[1]) || 6 };
+        const m = /^@strip\s*(\d+)?(?:\s+\|\s+(\S+))?/.exec(first);
+        return { t: "strip", count: Number(m?.[1]) || 6, dir: m?.[2] };
       }
-      if (first.startsWith("@pic")) return { t: "pic" };
+      // "@pic" or "@pic | folder"
+      if (first.startsWith("@pic")) {
+        const m = /^@pic(?:\s+\|\s+(\S+))?/.exec(first);
+        return { t: "pic", dir: m?.[1] };
+      }
       if (first.startsWith("@")) {
         const items: Cta[] = [];
         for (const line of lines) {
@@ -197,16 +206,37 @@ export function DocBody({ body }: { body: string }) {
                 ))}
               </ol>
             );
-          case "strip":
-            return <PicStrip key={i} count={block.count} />;
-          case "pic":
+          // With a folder: pictures dropped in /public/<folder> drift past on their own.
+          // Empty or no folder: the swipeable row of empty slots.
+          case "strip": {
+            const images = block.dir ? listImages(block.dir) : [];
+            return images.length > 0 ? (
+              <AutoPicStrip key={i} images={images} />
+            ) : (
+              <PicStrip key={i} count={block.count} />
+            );
+          }
+          // With a folder: shows the first picture in /public/<folder>. Otherwise an empty slot.
+          case "pic": {
+            const src = block.dir ? listImages(block.dir)[0] : undefined;
             return (
               <div
                 key={i}
                 aria-hidden
-                className="my-10 aspect-[16/10] w-full rounded-2xl border border-border bg-muted sm:my-12"
-              />
+                className="relative my-10 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:my-12"
+              >
+                {src && (
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 768px, 100vw"
+                    className="object-cover"
+                  />
+                )}
+              </div>
             );
+          }
           case "cta":
             return (
               <div key={i} className="mt-10 flex flex-wrap items-center gap-3">
