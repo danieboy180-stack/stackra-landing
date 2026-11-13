@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // Seconds the row takes to travel past one picture (higher = slower).
-const SECONDS_PER_PICTURE = 6;
+const SECONDS_PER_PICTURE = 4;
 // A short list is repeated until a group has at least this many cards.
 const MIN_CARDS = 6;
+
+// Plain CSS animation: it starts on its own, needs no JavaScript to run, and
+// pauses while the row is hovered or pressed. When a phone has animations turned
+// off or reduced, the row still drifts, at under half the speed.
+const css = `
+@keyframes pic-strip-drift { to { transform: translateX(-50%); } }
+.pic-strip-track { animation: pic-strip-drift var(--dur, 60s) linear infinite; }
+.pic-strip:hover .pic-strip-track, .pic-strip:active .pic-strip-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .pic-strip-track { animation-duration: calc(var(--dur, 60s) * 2.5); } }
+`;
 
 function Card({ src, index }: { src: string; index: number }) {
   const [loaded, setLoaded] = useState(false);
@@ -51,49 +60,32 @@ function Group({ cards, hidden }: { cards: string[]; hidden?: boolean }) {
   );
 }
 
-// Same endless, constant-speed drift as the home hero: two identical groups side
-// by side, moved by exactly half the track so the loop has no seam.
+// Endless, constant-speed drift like the home hero: two identical groups side by
+// side, moved by exactly half the track so the loop has no seam.
 export default function AutoPicStrip({ images }: { images: string[] }) {
-  const reduceMotion = useReducedMotion();
   if (images.length === 0) return null;
 
   const cards = Array.from(
     { length: Math.ceil(MIN_CARDS / images.length) * images.length },
     (_, i) => images[i % images.length]
   );
-
-  if (reduceMotion) {
-    return (
-      <div className="my-10 -mx-4 overflow-x-auto px-4 [scrollbar-width:none] sm:my-12 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
-        <div className="w-max">
-          <Group cards={cards} />
-        </div>
-      </div>
-    );
-  }
-
-  const fade = "linear-gradient(to right, transparent, black 5%, black 95%, transparent)";
+  const fade =
+    "linear-gradient(to right, transparent, black 5%, black 95%, transparent)";
 
   return (
     <div
       aria-hidden
-      className="my-10 overflow-hidden sm:my-12"
+      className="pic-strip my-10 overflow-hidden sm:my-12"
       style={{ maskImage: fade, WebkitMaskImage: fade }}
     >
-      <motion.div
-        initial={{ x: "0%" }}
-        animate={{ x: "-50%" }}
-        transition={{
-          duration: cards.length * SECONDS_PER_PICTURE,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop",
-        }}
-        className="flex w-max will-change-transform"
+      <style>{css}</style>
+      <div
+        className="pic-strip-track flex w-max will-change-transform"
+        style={{ "--dur": `${cards.length * SECONDS_PER_PICTURE}s` } as CSSProperties}
       >
         <Group cards={cards} />
         <Group cards={cards} hidden />
-      </motion.div>
+      </div>
     </div>
   );
 }
