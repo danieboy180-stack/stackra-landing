@@ -5,7 +5,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 // Seconds the row takes to travel past one picture (higher = slower).
-const SECONDS_PER_PICTURE = 4;
+const SECONDS_PER_PICTURE = 10;
 // A short list is repeated until a group has at least this many cards.
 const MIN_CARDS = 6;
 
@@ -61,7 +61,8 @@ function Group({ cards, hidden }: { cards: string[]; hidden?: boolean }) {
 }
 
 // Endless, constant-speed drift like the home hero: two identical groups side by
-// side, moved by exactly half the track so the loop has no seam.
+// side, moved by exactly half the track so the loop has no seam. The edges are
+// clean, with no fade.
 export default function AutoPicStrip({ images }: { images: string[] }) {
   if (images.length === 0) return null;
 
@@ -69,15 +70,9 @@ export default function AutoPicStrip({ images }: { images: string[] }) {
     { length: Math.ceil(MIN_CARDS / images.length) * images.length },
     (_, i) => images[i % images.length]
   );
-  const fade =
-    "linear-gradient(to right, transparent, black 5%, black 95%, transparent)";
 
   return (
-    <div
-      aria-hidden
-      className="pic-strip my-10 overflow-hidden sm:my-12"
-      style={{ maskImage: fade, WebkitMaskImage: fade }}
-    >
+    <div aria-hidden className="pic-strip my-10 overflow-hidden sm:my-12">
       <style>{css}</style>
       <div
         className="pic-strip-track flex w-max will-change-transform"

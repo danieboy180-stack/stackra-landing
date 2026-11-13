@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import AutoPicStrip from "@/components/auto-pic-strip";
 import PicStrip from "@/components/pic-strip";
+import SlotPic from "@/components/slot-pic";
 import { listImages } from "@/lib/slot-media";
 
 type Cta = { label: string; href: string; secondary: boolean };
@@ -216,27 +216,10 @@ export function DocBody({ body }: { body: string }) {
               <PicStrip key={i} count={block.count} />
             );
           }
-          // With a folder: shows the first picture in /public/<folder>. Otherwise an empty slot.
-          case "pic": {
-            const src = block.dir ? listImages(block.dir)[0] : undefined;
-            return (
-              <div
-                key={i}
-                aria-hidden
-                className="relative my-10 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:my-12"
-              >
-                {src && (
-                  <Image
-                    src={src}
-                    alt=""
-                    fill
-                    sizes="(min-width: 768px) 768px, 100vw"
-                    className="object-cover"
-                  />
-                )}
-              </div>
-            );
-          }
+          // With a folder: the first picture in /public/<folder>, shown whole in a frame
+          // that takes its shape. Otherwise an empty slot.
+          case "pic":
+            return <SlotPic key={i} dir={block.dir} />;
           case "cta":
             return (
               <div key={i} className="mt-10 flex flex-wrap items-center gap-3">
