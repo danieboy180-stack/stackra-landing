@@ -72,17 +72,79 @@ Explore how Stackra works, review the information available on our website, or c
 
 Need help? {Contact Us|/contact}
 
+Want to know who is behind Stackra? {Meet the team|/team}
+
 ## Company information
 
-Stackra is a brand operated by [insert the verified legal name of the person or organization operating Stackra].
+Stackra is a brand operated by Stackra Labs.
 
-Operating jurisdiction: [Insert verified jurisdiction.]
+Operating jurisdiction: Nigeria
 
 Business registration details: [Include only if applicable and verified.]
 
 Contact: hello@stackra.dev
 
 > This information should be completed before publication where required or relevant to accurately identify the company responsible for the service.
+`,
+  },
+  {
+    slug: "team",
+    group: "Company",
+    nav: "Team",
+    eyebrow: "Our Team",
+    title: "The people behind Stackra.",
+    lead: "Stackra is built by Stackra Labs. Meet the founder who leads it and the people who help build it.",
+    description:
+      "Meet the founder and CEO of Stackra and the team that builds and supports the platform.",
+    body: `
+> Working draft. This page uses only what the founder has shared so far. Complete every bracketed field with verified details, add a person only after they have agreed to be named, and do not describe experience, results or credentials that cannot be backed up.
+
+Stackra is operated by Stackra Labs, a small team led by its founder. We build tools that help merchants present their offerings online through shareable storefronts, and we stay close to the merchants who use them.
+
+## Meet the CEO
+
+@pic | team/ceo
+
+### Daniel Solomon Iyakwari, Founder and CEO
+
+Daniel founded Stackra and leads it as CEO. He sets the direction of the product, decides what gets built first, and stays hands-on in building it.
+
+Daniel is a final-year Computer Science student at Nasarawa State University, Keffi, in Nigeria, and he builds Stackra alongside his studies.
+
+[Add a short founder note, written or approved by Daniel, in his own words.]
+
+[Add the background Daniel is comfortable sharing: earlier projects, work, training or achievements that are relevant to building Stackra.]
+
+## What Daniel does at Stackra
+
+- **Product direction.** Decides what merchants need first and what Stackra builds next.
+- **Building the platform.** Works across the merchant app, the storefronts and the services behind them, using Node.js, TypeScript, React, NestJS and Prisma.
+- **Listening to merchants.** Works directly with merchants, takes in their feedback and turns it into improvements.
+- **Keeping Stackra honest.** Is accountable for what Stackra says about itself, so that claims reflect what the platform can actually do.
+
+## How Stackra is built
+
+Stackra is being built step by step, with real merchants shaping what comes next.
+
+Daniel uses AI coding tools, such as GitHub Copilot and Claude, to move faster, and he remains responsible for what ships. Stackra is self-funded at this stage.
+
+## The team
+
+Stackra is a small team. People who contribute are listed here once they have agreed to be named, with their roles and experience described accurately.
+
+- [Name], [Role]. [One or two sentences about what this person does at Stackra and the experience they bring.]
+- [Name], [Role]. [One or two sentences about what this person does at Stackra and the experience they bring.]
+
+## Working with merchants
+
+Merchants are central to how Stackra is shaped. If you sell online and want to share feedback, ask a question or explore working together, {contact us|/contact}. For partnerships, write to partnerships@stackra.dev.
+
+## Our commitment on this page
+
+We will only list people who have agreed to be named, describe their roles and experience accurately, and keep this page up to date as the team changes. We will not present unverified credentials, partnerships or milestones as established facts.
+
+@primary Contact Us | /contact
+@secondary About Stackra | /about
 `,
   },
   {
