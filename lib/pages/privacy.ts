@@ -26,11 +26,13 @@ We aim to handle personal information responsibly, explain our practices clearly
 
 ## 1. Who we are
 
-Stackra is operated by [insert the verified legal name of the person or organization responsible for Stackra].
+Stackra is operated by Stackra Labs.
 
 In this policy, "Stackra", "we", "us", and "our" refer to that operator.
 
-Business address or jurisdiction: [Insert verified details where required.]
+Business jurisdiction: Nigeria
+
+Business address: [Insert business address where required.]
 
 Privacy contact: privacy@stackra.dev
 
@@ -260,11 +262,11 @@ Where required by law, material changes will be communicated through an appropri
 
 For questions about this Privacy Policy or requests concerning personal information, contact:
 
-Operator: [Insert verified legal name.]
+Operator: Stackra Labs
 
 Privacy email: privacy@stackra.dev
 
-Business jurisdiction: [Insert verified jurisdiction.]
+Business jurisdiction: Nigeria
 
 Postal address: [Insert only if applicable and appropriate.]
 
