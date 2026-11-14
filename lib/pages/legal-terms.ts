@@ -23,13 +23,15 @@ These Website Terms of Use apply when you visit Stackra's public website and rea
 
 ## 1. Who operates this website
 
-Stackra is a product and brand operated by [insert the verified legal name of the person or organization operating Stackra]. In these terms, "Stackra", "we", "us" and "our" refer to that operator.
+Stackra is a product and brand operated by Stackra Labs. In these terms, "Stackra", "we", "us" and "our" refer to that operator.
 
 We do not describe "Stackra" as a registered company name unless and until it is one.
 
 Contact: hello@stackra.dev
 
-Business address or jurisdiction: [Insert verified details.]
+Business jurisdiction: Nigeria
+
+Business address: [Insert business address.]
 
 ## 2. What this website is for
 

@@ -45,7 +45,7 @@ Stackra is a merchant-commerce platform. Merchants use it to present products an
 
 Stackra provides the software and the storefront pages. In the current model, a merchant lists its own goods or services, sets its own prices and delivery terms, and deals directly with its customers. Stackra is not the seller of those goods or services.
 
-Stackra is a brand operated by [insert the verified legal name of the person or organization operating Stackra].
+Stackra is a brand operated by Stackra Labs.
 
 Privacy contact: privacy@stackra.dev
 
