@@ -19,7 +19,7 @@ Welcome to Stackra.
 
 These Terms of Service ("Terms") govern your access to and use of Stackra's website, merchant dashboard, online storefronts, and associated services.
 
-Stackra is operated by [INSERT FULL LEGAL NAME OF STACKRA'S OPERATING ENTITY], with its registered address at [INSERT REGISTERED BUSINESS ADDRESS]. In these Terms, "Stackra," "we," "our," and "us" refer to that entity.
+Stackra is operated by Stackra Labs, with its registered address at [INSERT REGISTERED BUSINESS ADDRESS]. In these Terms, "Stackra," "we," "our," and "us" refer to that entity.
 
 Please read these Terms carefully before creating an account, using our services, or purchasing a plan.
 
