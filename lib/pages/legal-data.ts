@@ -25,7 +25,7 @@ This Data Processing Agreement applies when Stackra processes personal data on b
 
 The merchant is the business that accepted the {Terms of Service|/terms}, as recorded on its account.
 
-Stackra is [insert the verified legal name, address and privacy contact of the person or organization operating Stackra].
+Stackra is Stackra Labs, whose business address is [insert business address].
 
 Privacy contact: privacy@stackra.dev
 
