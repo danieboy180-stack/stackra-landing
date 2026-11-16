@@ -4,7 +4,9 @@ import { firstImage } from "@/lib/slot-media";
 import { Reveal } from "./reveal";
 import { galleryPhotos } from "./photos";
 
-const gallery = galleryPhotos;
+// "Built around your photos" shows exactly 8: every third gallery photo, so they come
+// from across the whole set. The rest of the set stays in photos.ts but is not shown here.
+const gallery = galleryPhotos.filter((_, i) => i % 3 === 0).slice(0, 8);
 
 // The storefront board picture comes from this folder inside /public. Drop it in on
 // GitHub (see the README there). Any file name works, and the first picture is used.
@@ -90,9 +92,9 @@ export default function StoreAnatomy() {
           </p>
         </Reveal>
 
-        <div className="mt-8 grid grid-cols-3 gap-2 sm:mt-10 sm:grid-cols-4 sm:gap-3 lg:grid-cols-6">
+        <div className="mt-8 grid grid-cols-2 gap-2 sm:mt-10 sm:grid-cols-4 sm:gap-3">
           {gallery.map((file, i) => (
-            <Reveal key={file} delay={(i % 6) * 0.04}>
+            <Reveal key={file} delay={(i % 4) * 0.04}>
               <div
                 className={cn(
                   "relative aspect-[4/5] overflow-hidden rounded-xl border border-border sm:rounded-2xl",
@@ -101,7 +103,7 @@ export default function StoreAnatomy() {
               >
                 <Photo
                   file={file}
-                  sizes="(min-width: 1024px) 200px, (min-width: 640px) 25vw, 33vw"
+                  sizes="(min-width: 1280px) 320px, (min-width: 640px) 25vw, 50vw"
                 />
               </div>
             </Reveal>
