@@ -103,8 +103,12 @@ function SmartLink({
   );
 }
 
-// **bold**, [placeholder] (highlighted), {link text|/href}
-const TOKEN = /(\*\*[^*]+\*\*|\[[^\]]+\]|\{[^}|]+\|[^}]+\})/g;
+// **bold**, [placeholder] (highlighted), {link text|/href}, and any email address,
+// which becomes an underlined mailto: link.
+const TOKEN =
+  /(\*\*[^*]+\*\*|\[[^\]]+\]|\{[^}|]+\|[^}]+\}|[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,})/g;
+const EMAIL =
+  /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
 
 export function Inline({ text }: { text: string }) {
   return (
@@ -137,6 +141,18 @@ export function Inline({ text }: { text: string }) {
             >
               {label}
             </SmartLink>
+          );
+        }
+        // Odd positions are the matched tokens, so this is an email address.
+        if (i % 2 === 1 && EMAIL.test(part)) {
+          return (
+            <a
+              key={i}
+              href={`mailto:${part}`}
+              className="font-medium text-foreground underline underline-offset-4 hover:opacity-80"
+            >
+              {part}
+            </a>
           );
         }
         return part;
