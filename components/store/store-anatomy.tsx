@@ -1,32 +1,26 @@
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { firstImage } from "@/lib/slot-media";
 import { Reveal } from "./reveal";
-import { galleryPhotos } from "./photos";
+import PhotoStack from "./photo-stack";
 
-// "Built around your photos" shows exactly 8: every third gallery photo, so they come
-// from across the whole set. The rest of the set stays in photos.ts but is not shown here.
-const gallery = galleryPhotos.filter((_, i) => i % 3 === 0).slice(0, 8);
+// The photos in the stack under "Built around your photos", in the order they come up.
+// All are in /public/store. Landscape crops, so they favour products that sit well wide.
+const stackPhotos = [
+  "IMG-20260827-WA0117.jpg",
+  "IMG-20260821-WA0058.jpg",
+  "IMG-20261001-WA0120.jpg",
+  "IMG-20260903-WA0056.jpg",
+  "IMG-20261015-WA0172(1).jpg",
+  "IMG-20260924-WA0094.jpg",
+  "IMG-20260903-WA0062.jpg",
+  "IMG-20261015-WA0155.jpg",
+];
 
 // The storefront board picture comes from this folder inside /public. Drop it in on
 // GitHub (see the README there). Any file name works, and the first picture is used.
 const BOARD_DIR = "store/anatomy";
 // Shape of the empty placeholder until a picture is added (the board is 5000 x 2660).
 const BOARD_RATIO = 5000 / 2660;
-
-function Photo({ file, sizes }: { file: string; sizes: string }) {
-  return (
-    <Image
-      src={`/store/${file}`}
-      alt=""
-      fill
-      sizes={sizes}
-      draggable={false}
-      className="object-cover"
-      style={{ objectPosition: "50% 40%" }}
-    />
-  );
-}
 
 export default function StoreAnatomy() {
   const board = firstImage(BOARD_DIR);
@@ -81,33 +75,21 @@ export default function StoreAnatomy() {
           </p>
         </Reveal>
 
-        <Reveal className="mt-20 max-w-2xl sm:mt-28">
-          <h3 className="text-3xl leading-[1.08] font-medium tracking-tighter text-balance sm:text-4xl">
-            Built around your photos.
-          </h3>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Good photography does most of the selling. A store gives every
-            product the same clean frame, so your range looks consistent
-            whatever you sell.
-          </p>
-        </Reveal>
-
-        <div className="mt-8 grid grid-cols-2 gap-2 sm:mt-10 sm:grid-cols-4 sm:gap-3">
-          {gallery.map((file, i) => (
-            <Reveal key={file} delay={(i % 4) * 0.04}>
-              <div
-                className={cn(
-                  "relative aspect-[4/5] overflow-hidden rounded-xl border border-border sm:rounded-2xl",
-                  i % 2 ? "bg-muted/50" : "bg-muted"
-                )}
-              >
-                <Photo
-                  file={file}
-                  sizes="(min-width: 1280px) 320px, (min-width: 640px) 25vw, 50vw"
-                />
-              </div>
-            </Reveal>
-          ))}
+        {/* Text first, then the photo stack. Side by side from large screens up. */}
+        <div className="mt-20 grid items-center gap-12 sm:mt-28 lg:grid-cols-2 lg:gap-16">
+          <Reveal className="max-w-xl">
+            <h3 className="text-3xl leading-[1.08] font-medium tracking-tighter text-balance sm:text-4xl">
+              Built around your photos.
+            </h3>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Good photography does most of the selling. A store gives every
+              product the same clean frame, so your range looks consistent
+              whatever you sell.
+            </p>
+          </Reveal>
+          <Reveal>
+            <PhotoStack photos={stackPhotos} />
+          </Reveal>
         </div>
       </div>
     </section>
